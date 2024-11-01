@@ -9,6 +9,8 @@ import apple_watch from "./apple_watch.png";
 import suport_icon from "./suport_icon.png";
 import return_icon from "./return_icon.png";
 import exchange_icon from "./exchange_icon.png";
+import about from "./about.png";
+import contact from "./contact.png";
 
 export const assets = {
   logo,
@@ -22,4 +24,6 @@ export const assets = {
   suport_icon,
   return_icon,
   exchange_icon,
+  about,
+  contact,
 };

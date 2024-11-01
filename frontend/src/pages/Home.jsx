@@ -1,6 +1,5 @@
 import React from "react";
 import HeroBanner from "../components/HeroBanner";
-import Title from "../components/Title";
 import LastestCollection from "../components/LastestCollection";
 import BestSeller from "../components/BestSeller";
 import OurPolicy from "../components/OurPolicy";
