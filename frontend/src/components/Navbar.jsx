@@ -6,7 +6,7 @@ const Navbar = () => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div className="flex items-center justify-between ">
+    <div className="flex items-center justify-between py-5 font-medium">
       {/* Logo */}
       <img src={assets.logo} alt="logo" className="w-36" />
 
