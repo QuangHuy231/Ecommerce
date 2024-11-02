@@ -5,6 +5,7 @@ import { connectDB } from "./db/connectDB.js";
 import authRouter from "./routes/authRouter.js";
 import connectCloudinary from "./config/cloudinary.js";
 import productRouter from "./routes/productRoute.js";
+import cookiesparser from "cookie-parser";
 
 dotenv.config();
 const app = express();
@@ -15,7 +16,8 @@ connectCloudinary();
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
-// app.use(cookiesparser());
+app.use(cookiesparser());
+
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);
 

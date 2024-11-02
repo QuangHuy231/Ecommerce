@@ -3,7 +3,11 @@ import { v2 as cloudinary } from "cloudinary";
 
 export const getLastestProduct = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 }).limit(10);
+    const products = await Product.find()
+      .sort({ createdAt: "asc" })
+      .limit(10)
+      .select("name images price _id");
+
     res.status(200).json({
       success: true,
       products,
@@ -19,7 +23,8 @@ export const getBestSellerProduct = async (req, res) => {
       bestSeller: true,
     })
       .sort({ createdAt: -1 })
-      .limit(4);
+      .limit(4)
+      .select("name images price _id");
     res.status(200).json({
       success: true,
       products,

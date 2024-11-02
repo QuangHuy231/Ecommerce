@@ -1,8 +1,10 @@
 import React from "react";
 import Title from "./Title";
 import ProductItem from "./ProductItem";
+import { useProductStore } from "../store/productStore";
 
 const BestSeller = () => {
+  const { bestSeller } = useProductStore();
   return (
     <div className="my-10">
       <div className="text-center py-8 text-3xl ">
@@ -12,11 +14,10 @@ const BestSeller = () => {
           industry. Lorem Ipsum has been the.
         </p>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 gap-y-6">
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+        {bestSeller.map((product) => (
+          <ProductItem key={product._id} product={product} />
+        ))}
       </div>
     </div>
   );

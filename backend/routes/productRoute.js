@@ -9,7 +9,7 @@ import upload from "../middleware/multer.js";
 const productRouter = express.Router();
 
 productRouter.get("/lastest-product", getLastestProduct);
-productRouter.get("/best-seller-product", getBestSellerProduct);
+productRouter.get("/best-seller", getBestSellerProduct);
 
 productRouter.post(
   "/create-product",
