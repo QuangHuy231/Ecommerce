@@ -9,6 +9,10 @@ export const useProductStore = create((set) => ({
   products: [],
   lastestCollection: [],
   bestSeller: [],
+  search: "",
+  showSearch: false,
+  setSearch: (searchTerm) => set({ search: searchTerm }),
+  setShowSearch: (value) => set({ showSearch: value }),
   isLoading: false,
   error: null,
 
@@ -28,6 +32,16 @@ export const useProductStore = create((set) => ({
     try {
       const response = await axios.get(`${API_URL}/best-seller`);
       set({ bestSeller: response.data.products, isLoading: false });
+    } catch (error) {
+      set({ error: error.response.data.message, isLoading: false });
+    }
+  },
+  getAllProducts: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.get(`${API_URL}/products`);
+      set({ products: response.data.products, isLoading: false });
     } catch (error) {
       set({ error: error.response.data.message, isLoading: false });
     }

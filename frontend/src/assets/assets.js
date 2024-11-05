@@ -11,6 +11,7 @@ import return_icon from "./return_icon.png";
 import exchange_icon from "./exchange_icon.png";
 import about from "./about.png";
 import contact from "./contact.png";
+import cross_icon from "./cross_icon.png";
 
 export const assets = {
   logo,
@@ -26,4 +27,5 @@ export const assets = {
   exchange_icon,
   about,
   contact,
+  cross_icon,
 };
