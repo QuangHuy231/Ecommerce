@@ -5,7 +5,7 @@ export const getLastestProduct = async (req, res) => {
   try {
     const products = await Product.find()
       .sort({ createdAt: "asc" })
-      .limit(10)
+      .limit(8)
       .select("name images price _id");
 
     res.status(200).json({
@@ -36,7 +36,43 @@ export const getBestSellerProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find().select(
+      "name images price _id category subCategory"
+    );
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getDetailProduct = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const product = await Product.findById(id).select(
+      "name images price _id description category subCategory sizes"
+    );
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getRelatedProducts = async (req, res) => {
+  const { category, subCategory, id } = req.body;
+  try {
+    const products = await Product.find({
+      category,
+      subCategory,
+      _id: { $ne: id },
+    })
+      .select("name images price _id")
+      .limit(4);
     res.status(200).json({
       success: true,
       products,

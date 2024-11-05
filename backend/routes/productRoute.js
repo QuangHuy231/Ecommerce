@@ -4,6 +4,8 @@ import {
   getBestSellerProduct,
   getLastestProduct,
   getAllProducts,
+  getDetailProduct,
+  getRelatedProducts,
 } from "../controllers/productController.js";
 import upload from "../middleware/multer.js";
 
@@ -11,7 +13,9 @@ const productRouter = express.Router();
 
 productRouter.get("/lastest-product", getLastestProduct);
 productRouter.get("/best-seller", getBestSellerProduct);
-productRouter.get("/products", getAllProducts);
+productRouter.get("/", getAllProducts);
+productRouter.get("/:id", getDetailProduct);
+productRouter.post("/related-product", getRelatedProducts);
 
 productRouter.post(
   "/create-product",

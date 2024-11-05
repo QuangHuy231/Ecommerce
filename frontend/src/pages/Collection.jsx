@@ -30,6 +30,7 @@ const Collection = () => {
 
   const applyFilter = () => {
     let productsCopy = products.slice();
+    console.log(productsCopy);
 
     if (showSearch && search) {
       productsCopy = productsCopy.filter((item) =>
@@ -177,7 +178,7 @@ const Collection = () => {
       {/* Collection */}
       <div className="flex-1">
         <div className="flex justify-between text-base sm:text-2xl mb-4">
-          <Title title1={"ALL"} title2={"COLLECTION"} />
+          <Title title1={"ALL"} title2={"COLLECTIONS"} />
           {/* Sort */}
           <select
             onChange={(e) => setSortType(e.target.value)}

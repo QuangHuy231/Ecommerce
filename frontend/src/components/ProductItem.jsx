@@ -199,7 +199,7 @@ const ProductItem = ({ product }) => {
         </ul> */}
 
         <div className="mt-4 flex items-center justify-between gap-4">
-          <p className="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">
+          <p className="text-xl font-bold leading-tight text-gray-900 dark:text-white">
             ${price}
           </p>
 

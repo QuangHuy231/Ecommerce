@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 import { create } from "zustand";
 
 const API_URL = "http://localhost:5000/api/product";
@@ -7,6 +6,7 @@ axios.defaults.withCredentials = true;
 
 export const useProductStore = create((set) => ({
   products: [],
+  detailProduct: {},
   lastestCollection: [],
   bestSeller: [],
   search: "",
@@ -38,10 +38,19 @@ export const useProductStore = create((set) => ({
   },
   getAllProducts: async () => {
     set({ isLoading: true, error: null });
-
     try {
-      const response = await axios.get(`${API_URL}/products`);
+      const response = await axios.get(`${API_URL}`);
       set({ products: response.data.products, isLoading: false });
+    } catch (error) {
+      set({ error: error.response.data.message, isLoading: false });
+    }
+  },
+
+  getDetailProduct: async (id) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/${id}`);
+      set({ detailProduct: response.data.product, isLoading: false });
     } catch (error) {
       set({ error: error.response.data.message, isLoading: false });
     }
