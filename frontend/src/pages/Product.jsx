@@ -2,12 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useProductStore } from "../store/productStore";
 import { useParams } from "react-router-dom";
 import RelatedProduct from "../components/RelatedProduct";
+import { useCartStore } from "../store/cartStore";
+import { toast } from "react-toastify";
 
 const Product = () => {
   const { id } = useParams();
   const { detailProduct, getDetailProduct } = useProductStore();
+  const { addToCart } = useCartStore();
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
+
+  const handleAddToCart = async () => {
+    if (!size) {
+      toast.error("Please select size");
+      return;
+    }
+    addToCart(
+      detailProduct._id,
+      size,
+      image,
+      detailProduct.price,
+      detailProduct.name
+    );
+  };
 
   useEffect(() => {
     getDetailProduct(id);
@@ -88,7 +105,10 @@ const Product = () => {
                 ))}
             </div>
           </div>
-          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
+          <button
+            onClick={handleAddToCart}
+            className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700"
+          >
             ADD TO CART
           </button>
           <hr className="mt-8 sm:w-4/5" />

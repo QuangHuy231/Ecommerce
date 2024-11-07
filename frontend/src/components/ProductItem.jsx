@@ -2,10 +2,16 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 // import Rating from "./Rating";
 import { toast } from "react-toastify";
+import { useAuthStore } from "../store/authStore";
 
 const ProductItem = ({ product }) => {
   const { _id, name, images, price } = product;
+  const { isAuthenticated } = useAuthStore();
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      toast.error("Please login to add product to cart");
+      return;
+    }
     toast.success("Product added to cart");
   };
   return (

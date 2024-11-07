@@ -12,6 +12,9 @@ import exchange_icon from "./exchange_icon.png";
 import about from "./about.png";
 import contact from "./contact.png";
 import cross_icon from "./cross_icon.png";
+import bin_icon from "./bin_icon.png";
+import stripe_logo from "./stripe_logo.png";
+import razor_icon from "./razor_icon.png";
 
 export const assets = {
   logo,
@@ -28,4 +31,7 @@ export const assets = {
   about,
   contact,
   cross_icon,
+  bin_icon,
+  stripe_logo,
+  razor_icon,
 };
