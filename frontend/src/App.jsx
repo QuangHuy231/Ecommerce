@@ -11,8 +11,19 @@ import Cart from "./pages/Cart.jsx";
 import PlaceOrder from "./pages/PlaceOrder.jsx";
 import Orders from "./pages/Orders.jsx";
 import Login from "./pages/Login.jsx";
+import { useAuthStore } from "./store/authStore.js";
+import Loading from "./components/Loading.jsx";
+import { useEffect } from "react";
 
 function App() {
+  const { isCheckingAuth, checkAuth } = useAuthStore();
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (isCheckingAuth) {
+    return <Loading />;
+  }
   return (
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ">
       <Navbar />

@@ -1,28 +1,37 @@
 import React, { useState } from "react";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [currentState, setCurrentState] = useState("Login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, signup } = useAuthStore();
+  const { login, signup, error } = useAuthStore();
 
   const naviagate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      if (currentState === "Login") {
-        login(email, password);
-      } else {
-        signup(email, password, name);
-      }
 
+    if (currentState === "Login") {
+      login(email, password);
+      toast.success("Logged in successfully");
+    } else {
+      signup(email, password, name);
+      toast.success("Signed up successfully");
+    }
+
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    if (currentState === "Login") {
       naviagate("/");
-    } catch (error) {
-      console.log(error);
+    } else {
+      setCurrentState("Login");
     }
   };
 
