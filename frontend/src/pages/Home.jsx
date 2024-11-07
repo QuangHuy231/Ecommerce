@@ -6,9 +6,12 @@ import OurPolicy from "../components/OurPolicy";
 import NewLetterBox from "../components/NewLetterBox";
 import { useProductStore } from "../store/productStore";
 import Loading from "../components/Loading";
+import { useModalStore } from "../store/modalStore";
+import ModalSelectSize from "../components/ModalSelectSize";
 
 const Home = () => {
   const { getLastestProduct, getBestSeller, isLoading } = useProductStore();
+  const { isOpen } = useModalStore();
   useEffect(() => {
     getLastestProduct();
     getBestSeller();
@@ -26,7 +29,7 @@ const Home = () => {
           <BestSeller />
         </>
       )}
-
+      {isOpen && <ModalSelectSize />}
       <OurPolicy />
       <NewLetterBox />
     </div>

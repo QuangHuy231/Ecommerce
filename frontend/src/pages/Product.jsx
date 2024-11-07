@@ -24,6 +24,7 @@ const Product = () => {
       detailProduct.price,
       detailProduct.name
     );
+    toast.success("Product added to cart");
   };
 
   useEffect(() => {

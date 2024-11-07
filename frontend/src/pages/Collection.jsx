@@ -3,6 +3,8 @@ import { assets } from "../assets/assets";
 import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
 import { useProductStore } from "../store/productStore";
+import ModalSelectSize from "../components/ModalSelectSize";
+import { useModalStore } from "../store/modalStore";
 
 const Collection = () => {
   const { products, getAllProducts, search, showSearch } = useProductStore();
@@ -11,6 +13,9 @@ const Collection = () => {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState("relavent");
+
+  const { isOpen } = useModalStore();
+  const [selectedProduct, setSelectedProduct] = useState({});
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -196,6 +201,9 @@ const Collection = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal */}
+      {isOpen && <ModalSelectSize />}
     </div>
   );
 };

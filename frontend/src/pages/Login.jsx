@@ -1,10 +1,36 @@
 import React, { useState } from "react";
+import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [currentState, setCurrentState] = useState("Sign Up");
+  const [currentState, setCurrentState] = useState("Login");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, signup } = useAuthStore();
+
+  const naviagate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      if (currentState === "Login") {
+        login(email, password);
+      } else {
+        signup(email, password, name);
+      }
+
+      naviagate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <form className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800"
+    >
       <div className="inline-flex items-center gap-2 mb-2 mt-10">
         <p className="prata-regular text-3xl">{currentState}</p>
         <hr className="border-none h-[1.5px] w-8 bg-gray-800" />
@@ -13,6 +39,7 @@ const Login = () => {
         ""
       ) : (
         <input
+          onChange={(e) => setName(e.target.value)}
           type="text"
           className="w-full px-3 py-2 border border-gray-800"
           placeholder="Name"
@@ -20,12 +47,14 @@ const Login = () => {
         />
       )}
       <input
+        onChange={(e) => setEmail(e.target.value)}
         type="email"
         className="w-full px-3 py-2 border border-gray-800"
         placeholder="Email"
         required
       />
       <input
+        onChange={(e) => setPassword(e.target.value)}
         type="password"
         className="w-full px-3 py-2 border border-gray-800"
         placeholder="Password"

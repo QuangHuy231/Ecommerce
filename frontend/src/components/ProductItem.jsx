@@ -3,16 +3,19 @@ import { NavLink } from "react-router-dom";
 // import Rating from "./Rating";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../store/authStore";
+import { useModalStore } from "../store/modalStore";
 
 const ProductItem = ({ product }) => {
   const { _id, name, images, price } = product;
   const { isAuthenticated } = useAuthStore();
+  const { openModal, setId } = useModalStore();
   const handleAddToCart = () => {
     if (!isAuthenticated) {
       toast.error("Please login to add product to cart");
       return;
     }
-    toast.success("Product added to cart");
+    openModal();
+    setId(_id);
   };
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm ">
