@@ -1,19 +1,45 @@
-import React, { useEffect } from "react";
-import { useModalStore } from "../store/modalStore";
+import React, { useEffect, useState } from "react";
 import { useProductStore } from "../store/productStore";
+import { useModalStore } from "../store/modalStore";
+import { toast } from "react-toastify";
+import { useCartStore } from "../store/cartStore";
 
 const ModalSelectSize = () => {
   const { closeModal, _id } = useModalStore();
   const { getDetailProduct, detailProduct } = useProductStore();
+  const [image, setImage] = useState("");
+  const [size, setSize] = useState("");
+
+  const { addToCart } = useCartStore();
+
+  const handleAddToCart = async () => {
+    if (!size) {
+      toast.error("Please select size");
+      return;
+    }
+    addToCart(
+      detailProduct._id,
+      size,
+      image,
+      detailProduct.price,
+      detailProduct.name
+    );
+    closeModal();
+    toast.success("Product added to cart");
+  };
   useEffect(() => {
     getDetailProduct(_id);
   }, [_id]);
 
+  useEffect(() => {
+    setImage(detailProduct.images && detailProduct.images[0]);
+  }, [detailProduct]);
+
   return (
     <>
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 z-40"></div>
-      <div className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
-        <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
+      <div className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full">
+        <div className="relative p-4 w-full max-w-3xl h-auto ">
           {/* <!-- Modal content --> */}
           <div className="relative p-4 bg-white rounded-lg shadow sm:p-5">
             {/* <!-- Modal header --> */}
@@ -41,12 +67,116 @@ const ModalSelectSize = () => {
             {/* <!-- Modal body --> */}
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="col-span-1">
-                <img className="w-full" src={detailProduct.images} alt="" />
+              <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row justify-center">
+                <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
+                  {detailProduct.images &&
+                    detailProduct.images.map((image, index) => (
+                      <img
+                        onClick={() => setImage(image)}
+                        key={index}
+                        src={image}
+                        className="w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer"
+                        alt=""
+                      />
+                    ))}
+                </div>
+                <div className="w-full sm:w-[80%] ">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={image}
+                    alt=""
+                  />
+                </div>
               </div>
-              <div className="col-span-1">
-                <p className="text-2xl font-bold">{detailProduct.name}</p>
-                <p className="text-2xl font-bold">${detailProduct.price}</p>
+              <div className="flex-1">
+                <p className="text-2xl font-semibold">{detailProduct.name}</p>
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="flex items-center">
+                    <svg
+                      className="h-4 w-4 text-yellow-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                    </svg>
+
+                    <svg
+                      className="h-4 w-4 text-yellow-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                    </svg>
+
+                    <svg
+                      className="h-4 w-4 text-yellow-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                    </svg>
+
+                    <svg
+                      className="h-4 w-4 text-yellow-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                    </svg>
+
+                    <svg
+                      className="h-4 w-4 text-yellow-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                    </svg>
+                  </div>
+
+                  <p className="text-sm font-medium text-gray-900 ">5.0</p>
+                  <p className="text-sm font-medium text-gray-500 ">(455)</p>
+                </div>
+                <div className="flex flex-col gap-4 my-8">
+                  <p>Select Size</p>
+                  <div className="flex gap-2">
+                    {detailProduct.sizes &&
+                      detailProduct.sizes.map((item, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSize(item)}
+                          className={`border py-2 px-4 bg-gray-100 ${
+                            item === size ? "border-orange-500" : ""
+                          }`}
+                        >
+                          {item}
+                        </button>
+                      ))}
+                  </div>
+                </div>
+                <hr className="mt-8 sm:w-4/5" />
+
+                <div className="flex justify-between items-center mt-8">
+                  <p className="text-2xl font-semibold">
+                    ${detailProduct.price}
+                  </p>
+                  <button
+                    onClick={handleAddToCart}
+                    type="button"
+                    className="inline-flex items-center rounded-lg bg-blue-600 px-2 py-1 sm:px-5 sm:py-2.5 text-sm font-medium text-white  hover:bg-blue-800"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
               </div>
             </div>
           </div>

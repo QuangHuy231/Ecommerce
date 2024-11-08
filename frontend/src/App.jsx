@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Collection from "./pages/Collection.jsx";
 import Navbar from "./components/Navbar.jsx";
@@ -14,9 +14,10 @@ import Login from "./pages/Login.jsx";
 import { useAuthStore } from "./store/authStore.js";
 import Loading from "./components/Loading.jsx";
 import { useEffect } from "react";
+import Signup from "./pages/Signup.jsx";
 
 function App() {
-  const { isCheckingAuth, checkAuth } = useAuthStore();
+  const { isCheckingAuth, checkAuth, user } = useAuthStore();
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -37,7 +38,14 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/signup"
+          element={!user ? <Signup /> : <Navigate to="/" />}
+        />
       </Routes>
       <Footer />
     </div>

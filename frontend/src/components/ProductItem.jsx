@@ -7,10 +7,10 @@ import { useModalStore } from "../store/modalStore";
 
 const ProductItem = ({ product }) => {
   const { _id, name, images, price } = product;
-  const { isAuthenticated } = useAuthStore();
+  const { user } = useAuthStore();
   const { openModal, setId } = useModalStore();
   const handleAddToCart = () => {
-    if (!isAuthenticated) {
+    if (!user) {
       toast.error("Please login to add product to cart");
       return;
     }

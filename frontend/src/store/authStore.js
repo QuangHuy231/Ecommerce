@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:5000/api/auth";
 axios.defaults.withCredentials = true;
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
   user: null,
   error: null,
   isLoading: false,
-  isAuthenticated: false,
   isCheckingAuth: false,
   message: null,
   signup: async (email, password, name) => {
@@ -22,12 +23,13 @@ export const useAuthStore = create((set) => ({
         user: response.data.user,
         isLoading: false,
       });
+      toast.success("Signup successful");
     } catch (error) {
-      console.log(error);
       set({
-        error: error.response.data.message || "Error signing up",
+        error: error.response.data.message,
         isLoading: false,
       });
+      toast.error(error.response.data.message);
       throw error;
     }
   },
@@ -41,14 +43,15 @@ export const useAuthStore = create((set) => ({
       });
       set({
         user: response.data.user,
-        isAuthenticated: true,
         isLoading: false,
       });
+      toast.success("Login successful");
     } catch (error) {
       set({
-        error: error.response.data.message || "Error login ",
+        error: error.response.data.message,
         isLoading: false,
       });
+      toast.error(error.response.data.message);
       throw error;
     }
   },
@@ -59,16 +62,14 @@ export const useAuthStore = create((set) => ({
       await axios.post(`${API_URL}/logout`);
       set({
         user: null,
-        isAuthenticated: false,
         isLoading: false,
         error: null,
       });
     } catch (error) {
       set({
-        error: error.response.data.message || "Error logging out",
+        error: error.response.data.message,
         isLoading: false,
       });
-      throw error;
     }
   },
   checkAuth: async () => {
@@ -77,11 +78,10 @@ export const useAuthStore = create((set) => ({
       const response = await axios.get(`${API_URL}/check-auth`);
       set({
         user: response.data.user,
-        isAuthenticated: true,
         isCheckingAuth: false,
       });
     } catch (error) {
-      set({ error: null, isCheckingAuth: false, isAuthenticated: false });
+      set({ error: null, isCheckingAuth: false });
     }
   },
 }));

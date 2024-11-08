@@ -8,7 +8,7 @@ import { useCartStore } from "../store/cartStore";
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const { setShowSearch } = useProductStore();
-  const { isAuthenticated, logout } = useAuthStore();
+  const { user, logout } = useAuthStore();
   const { getCartCount } = useCartStore();
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ const Navbar = () => {
           className="w-5 cursor-pointer"
         />
 
-        {isAuthenticated ? (
+        {user ? (
           <>
             <div className="group relative">
               <img
