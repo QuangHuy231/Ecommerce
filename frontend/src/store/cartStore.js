@@ -1,35 +1,75 @@
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { create } from "zustand";
 
+const API_URL = "http://localhost:5000/api/cart";
 export const useCartStore = create((set, get) => ({
   cartItems: [],
+  isLoading: false,
+  error: null,
+
+  getUserCart: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/get-user-cart`);
+      set({ cartItems: response.data.cart, isLoading: false });
+    } catch (error) {
+      console.log(error);
+      set({ error: error.response.data.message, isLoading: false });
+    }
+  },
 
   addToCart: async (itemId, size, image, price, name) => {
-    let cartData = structuredClone(get().cartItems);
-
-    if (cartData[itemId]) {
-      if (cartData[itemId][size]) {
-        cartData[itemId][size].quantity += 1;
-      } else {
-        cartData[itemId][size] = { quantity: 1, image, price, name };
-      }
-    } else {
-      cartData[itemId] = {};
-      cartData[itemId][size] = { quantity: 1, image, price, name };
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/add-to-cart`, {
+        itemId,
+        size,
+        image,
+        price,
+        name,
+      });
+      set({ cartItems: response.data.cart, isLoading: false });
+    } catch (error) {
+      console.log(error);
+      set({ error: error.response.data.message, isLoading: false });
     }
+  },
 
-    set({ cartItems: cartData });
+  removeFromCart: async (itemId, size) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/remove-from-cart`, {
+        itemId,
+        size,
+      });
+      set({ cartItems: response.data.cart, isLoading: false });
+    } catch (error) {
+      console.log(error);
+      set({ error: error.response.data.message, isLoading: false });
+    }
+  },
+
+  updateQuantity: async (itemId, size, quantity) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.put(`${API_URL}/update-cart`, {
+        itemId,
+        size,
+        quantity,
+      });
+      set({ cartItems: response.data.cart, isLoading: false });
+    } catch (error) {
+      console.log(error);
+      set({ error: error.response.data.message, isLoading: false });
+    }
   },
 
   getCartCount: () => {
     let total = 0;
     for (const items in get().cartItems) {
       for (const item in get().cartItems[items]) {
-        try {
-          if (get().cartItems[items][item].quantity > 0) {
-            total += get().cartItems[items][item].quantity;
-          }
-        } catch (error) {}
+        if (get().cartItems[items][item].quantity)
+          total += get().cartItems[items][item].quantity;
       }
     }
     return total;
@@ -40,21 +80,12 @@ export const useCartStore = create((set, get) => ({
 
     for (const items in get().cartItems) {
       for (const item in get().cartItems[items]) {
-        try {
-          if (get().cartItems[items][item].quantity > 0) {
-            totalAmount +=
-              get().cartItems[items][item].quantity *
-              get().cartItems[items][item].price;
-          }
-        } catch (error) {}
+        if (get().cartItems[items][item].quantity)
+          totalAmount +=
+            get().cartItems[items][item].quantity *
+            get().cartItems[items][item].price;
       }
     }
     return totalAmount;
-  },
-
-  updateQuantity: (itemId, size, quantity) => {
-    let cartData = structuredClone(get().cartItems);
-    cartData[itemId][size].quantity = quantity;
-    set({ cartItems: cartData });
   },
 }));

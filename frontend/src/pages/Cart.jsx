@@ -3,32 +3,19 @@ import { useCartStore } from "../store/cartStore";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
 
 const Cart = () => {
-  const { cartItems, updateQuantity } = useCartStore();
+  const { cartItems, updateQuantity, getUserCart, removeFromCart } =
+    useCartStore();
+  const { user } = useAuthStore();
 
-  const [cartData, setCartData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const temp = [];
-    for (const items in cartItems) {
-      for (const item in cartItems[items]) {
-        if (cartItems[items][item].quantity > 0) {
-          temp.push({
-            _id: items,
-            size: item,
-            quantity: cartItems[items][item].quantity,
-            image: cartItems[items][item].image,
-            price: cartItems[items][item].price,
-            name: cartItems[items][item].name,
-          });
-        }
-      }
-    }
-    setCartData(temp);
-  }, [cartItems]);
+    getUserCart();
+  }, [user]);
 
   return (
     <div className="border-t pt-14">
@@ -37,42 +24,51 @@ const Cart = () => {
       </div>
 
       <div>
-        {cartData.map((item, index) => (
-          <div
-            key={index}
-            className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
-          >
-            <div className="flex items-start gap-6">
-              <img src={item.image} alt="" className="w-16 sm:w-20" />
-              <div>
-                <p className="text-xs sm:text-lg font-medium">{item.name}</p>
-                <div className="flex items-center gap-5 mt-2">
-                  <p>${item.price}</p>
-                  <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
-                    {item.size}
-                  </p>
+        {cartItems.items &&
+          cartItems.items.map((item, index) => (
+            <div
+              key={index}
+              className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+            >
+              <div className="flex items-start gap-6">
+                <img src={item.image} alt="" className="w-16 sm:w-20" />
+                <div>
+                  <Link to={`/product/${item.itemId}`}>
+                    <p className="text-xs sm:text-lg font-medium">
+                      {item.name}
+                    </p>
+                  </Link>
+                  <div className="flex items-center gap-5 mt-2">
+                    <p>${item.price}</p>
+                    <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">
+                      {item.size}
+                    </p>
+                  </div>
                 </div>
               </div>
+              <input
+                onChange={(e) =>
+                  e.target.value === "" || e.target.value === "0"
+                    ? null
+                    : updateQuantity(
+                        item._id,
+                        item.size,
+                        Number(e.target.value)
+                      )
+                }
+                className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 text-center"
+                type="number"
+                min={1}
+                defaultValue={item.quantity}
+              />
+              <img
+                onClick={() => removeFromCart(item._id, item.size)}
+                className="w-4 mr-4 sm:w-5 cursor-pointer"
+                src={assets.bin_icon}
+                alt=""
+              />
             </div>
-            <input
-              onChange={(e) =>
-                e.target.value === "" || e.target.value === "0"
-                  ? null
-                  : updateQuantity(item._id, item.size, Number(e.target.value))
-              }
-              className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 text-center"
-              type="number"
-              min={1}
-              defaultValue={item.quantity}
-            />
-            <img
-              onClick={() => updateQuantity(item._id, item.size, 0)}
-              className="w-4 mr-4 sm:w-5 cursor-pointer"
-              src={assets.bin_icon}
-              alt=""
-            />
-          </div>
-        ))}
+          ))}
       </div>
 
       <div className="flex justify-end my-20">
