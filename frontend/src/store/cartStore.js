@@ -13,7 +13,7 @@ export const useCartStore = create((set, get) => ({
       const response = await axios.get(`${API_URL}/get-user-cart`);
       set({ cartItems: response.data.cart, isLoading: false });
     } catch (error) {
-      console.log(error);
+      set({ cartItems: [], isLoading: false });
       set({ error: error.response.data.message, isLoading: false });
     }
   },

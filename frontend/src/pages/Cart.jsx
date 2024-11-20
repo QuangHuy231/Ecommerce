@@ -1,21 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useCartStore } from "../store/cartStore";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthStore } from "../store/authStore";
 
 const Cart = () => {
-  const { cartItems, updateQuantity, getUserCart, removeFromCart } =
-    useCartStore();
-  const { user } = useAuthStore();
+  const { cartItems, updateQuantity, removeFromCart } = useCartStore();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    getUserCart();
-  }, [user]);
 
   return (
     <div className="border-t pt-14">

@@ -15,12 +15,20 @@ import { useAuthStore } from "./store/authStore.js";
 import Loading from "./components/Loading.jsx";
 import { useEffect } from "react";
 import Signup from "./pages/Signup.jsx";
+import { useCartStore } from "./store/cartStore.js";
 
 function App() {
   const { isCheckingAuth, checkAuth, user } = useAuthStore();
+  const { getUserCart } = useCartStore();
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    getUserCart();
+  }, [getUserCart, user]);
 
   if (isCheckingAuth) {
     return <Loading />;
