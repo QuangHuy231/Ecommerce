@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 
-const adminAuth = async (req, res, next) => {
+export const adminAuth = async (req, res, next) => {
   try {
-    const { token } = req.cookies;
+    const token = req.headers.token;
     if (!token) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
@@ -11,10 +11,10 @@ const adminAuth = async (req, res, next) => {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
 
+    req.admin = decoded;
+
     next();
   } catch (error) {
     return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 };
-
-export default adminAuth;
