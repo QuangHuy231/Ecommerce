@@ -52,9 +52,8 @@ export const userOrders = async (req, res) => {
 
 export const updateStatus = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { status } = req.body;
-    const order = await orderModel.findById(id).populate("userId");
+    const { status, id } = req.body;
+    const order = await orderModel.findByIdAndUpdate(id, { status });
     order.status = status;
     await order.save();
     res.status(200).json({ success: true, message: "Status updated" });
