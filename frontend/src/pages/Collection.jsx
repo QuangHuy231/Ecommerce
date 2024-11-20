@@ -15,7 +15,6 @@ const Collection = () => {
   const [sortType, setSortType] = useState("relavent");
 
   const { isOpen } = useModalStore();
-  const [selectedProduct, setSelectedProduct] = useState({});
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {

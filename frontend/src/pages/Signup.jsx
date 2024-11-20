@@ -6,12 +6,11 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signup, error } = useAuthStore();
+  const { signup, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     signup(email, password, name);
   };
 
@@ -52,7 +51,7 @@ const Signup = () => {
       </div>
 
       <button className="bg-black text-white font-light px-8 py-2 mt-4">
-        Sign Up
+        {isLoading ? "Loading..." : "Sign Up"}
       </button>
     </form>
   );

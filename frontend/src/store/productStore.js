@@ -14,45 +14,52 @@ export const useProductStore = create((set) => ({
   setSearch: (searchTerm) => set({ search: searchTerm }),
   setShowSearch: (value) => set({ showSearch: value }),
   isLoading: false,
-  error: null,
 
   getLastestProduct: async () => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
     try {
       const response = await axios.get(`${API_URL}/lastest-product`);
-      set({ lastestCollection: response.data.products, isLoading: false });
+      set({ lastestCollection: response.data.products });
     } catch (error) {
-      set({ error: error.response.data.message, isLoading: false });
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   getBestSeller: async () => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
 
     try {
       const response = await axios.get(`${API_URL}/best-seller`);
-      set({ bestSeller: response.data.products, isLoading: false });
+      set({ bestSeller: response.data.products });
     } catch (error) {
-      set({ error: error.response.data.message, isLoading: false });
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
     }
   },
   getAllProducts: async () => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
     try {
       const response = await axios.get(`${API_URL}`);
-      set({ products: response.data.products, isLoading: false });
+      set({ products: response.data.products });
     } catch (error) {
-      set({ error: error.response.data.message, isLoading: false });
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   getDetailProduct: async (id) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
     try {
       const response = await axios.get(`${API_URL}/${id}`);
-      set({ detailProduct: response.data.product, isLoading: false });
+      set({ detailProduct: response.data.product });
     } catch (error) {
-      set({ error: error.response.data.message, isLoading: false });
+      console.log(error);
+    } finally {
+      set({ isLoading: false });
     }
   },
 }));

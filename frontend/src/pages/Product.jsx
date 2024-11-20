@@ -4,13 +4,16 @@ import { useParams } from "react-router-dom";
 import RelatedProduct from "../components/RelatedProduct";
 import { useCartStore } from "../store/cartStore";
 import { toast } from "react-toastify";
+import ModalSelectSize from "../components/ModalSelectSize";
+import { useModalStore } from "../store/modalStore";
 
 const Product = () => {
   const { id } = useParams();
   const { detailProduct, getDetailProduct } = useProductStore();
-  const { addToCart } = useCartStore();
+  const { addToCart, isLoading } = useCartStore();
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
+  const { isOpen } = useModalStore();
 
   const handleAddToCart = async () => {
     if (!size) {
@@ -24,7 +27,6 @@ const Product = () => {
       detailProduct.price,
       detailProduct.name
     );
-    toast.success("Product added to cart");
   };
 
   useEffect(() => {
@@ -110,7 +112,7 @@ const Product = () => {
             onClick={handleAddToCart}
             className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700"
           >
-            ADD TO CART
+            {isLoading ? "Adding..." : "ADD TO CART"}
           </button>
           <hr className="mt-8 sm:w-4/5" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
@@ -152,6 +154,8 @@ const Product = () => {
         category={detailProduct.category}
         subCategory={detailProduct.subCategory}
       />
+
+      {isOpen && <ModalSelectSize />}
     </div>
   );
 };

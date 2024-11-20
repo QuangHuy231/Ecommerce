@@ -1,25 +1,26 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { create } from "zustand";
 
 const API_URL = "http://localhost:5000/api/cart";
 export const useCartStore = create((set, get) => ({
   cartItems: [],
   isLoading: false,
-  error: null,
 
   getUserCart: async () => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
     try {
       const response = await axios.get(`${API_URL}/get-user-cart`);
-      set({ cartItems: response.data.cart, isLoading: false });
+      set({ cartItems: response.data.cart });
     } catch (error) {
-      set({ cartItems: [], isLoading: false });
-      set({ error: error.response.data.message, isLoading: false });
+      set({ cartItems: [] });
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   addToCart: async (itemId, size, image, price, name) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
     try {
       const response = await axios.post(`${API_URL}/add-to-cart`, {
         itemId,
@@ -28,39 +29,47 @@ export const useCartStore = create((set, get) => ({
         price,
         name,
       });
-      set({ cartItems: response.data.cart, isLoading: false });
+      set({ cartItems: response.data.cart });
+      toast.success("Product added to cart");
     } catch (error) {
       console.log(error);
-      set({ error: error.response.data.message, isLoading: false });
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   removeFromCart: async (itemId, size) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
     try {
       const response = await axios.post(`${API_URL}/remove-from-cart`, {
         itemId,
         size,
       });
-      set({ cartItems: response.data.cart, isLoading: false });
+      set({ cartItems: response.data.cart });
+      toast.success("Product removed from cart");
     } catch (error) {
       console.log(error);
-      set({ error: error.response.data.message, isLoading: false });
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   updateQuantity: async (itemId, size, quantity) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true });
     try {
       const response = await axios.put(`${API_URL}/update-cart`, {
         itemId,
         size,
         quantity,
       });
-      set({ cartItems: response.data.cart, isLoading: false });
+      set({ cartItems: response.data.cart });
     } catch (error) {
       console.log(error);
-      set({ error: error.response.data.message, isLoading: false });
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoading: false });
     }
   },
 

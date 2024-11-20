@@ -3,14 +3,15 @@ import { useProductStore } from "../store/productStore";
 import { useModalStore } from "../store/modalStore";
 import { toast } from "react-toastify";
 import { useCartStore } from "../store/cartStore";
+import axios from "axios";
 
 const ModalSelectSize = () => {
   const { closeModal, _id } = useModalStore();
-  const { getDetailProduct, detailProduct } = useProductStore();
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
+  const [detailProduct, setDetailProduct] = useState({});
 
-  const { addToCart } = useCartStore();
+  const { addToCart, isLoading } = useCartStore();
 
   const handleAddToCart = async () => {
     if (!size) {
@@ -25,15 +26,27 @@ const ModalSelectSize = () => {
       detailProduct.name
     );
     closeModal();
-    toast.success("Product added to cart");
   };
-  useEffect(() => {
-    getDetailProduct(_id);
-  }, [_id]);
 
   useEffect(() => {
     setImage(detailProduct.images && detailProduct.images[0]);
   }, [detailProduct]);
+
+  const getDetailProduct = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/product/${id}`
+      );
+      console.log(response.data.product);
+      setDetailProduct(response.data.product);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDetailProduct(_id);
+  }, [_id]);
 
   return (
     <>
@@ -174,7 +187,7 @@ const ModalSelectSize = () => {
                     type="button"
                     className="inline-flex items-center rounded-lg bg-blue-600 px-2 py-1 sm:px-5 sm:py-2.5 text-sm font-medium text-white  hover:bg-blue-800"
                   >
-                    Add to Cart
+                    {isLoading ? "Adding..." : "Add to cart"}
                   </button>
                 </div>
               </div>

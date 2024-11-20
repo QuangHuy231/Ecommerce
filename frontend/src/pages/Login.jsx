@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, error } = useAuthStore();
+  const { login, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -44,7 +44,7 @@ const Login = () => {
         </p>
       </div>
       <button className="bg-black text-white font-light px-8 py-2 mt-4">
-        Sign In
+        {isLoading ? "Loading..." : "Login"}
       </button>
     </form>
   );
