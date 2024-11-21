@@ -6,7 +6,15 @@ const API_URL = "http://localhost:5000/api/order";
 
 export const useOrderStore = create((set) => ({
   orders: [],
+  totalAmount: 0,
+  itemsToOrder: [],
   isLoading: false,
+
+  addItemsToOrder: (item) => {
+    set({
+      itemsToOrder: [...item],
+    });
+  },
 
   getOrders: async () => {
     set({ isLoading: true });
@@ -24,7 +32,7 @@ export const useOrderStore = create((set) => ({
     set({ isLoading: true });
     try {
       await axios.post(`${API_URL}/place-order`, orderData);
-
+      set({ itemsToOrder: [] });
       toast.success("Order placed successfully");
     } catch (error) {
       console.log(error);
@@ -32,6 +40,10 @@ export const useOrderStore = create((set) => ({
     } finally {
       set({ isLoading: false });
     }
+  },
+
+  setTotalAmount: (totalAmount) => {
+    set({ totalAmount });
   },
 }));
 

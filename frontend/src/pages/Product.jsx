@@ -13,6 +13,7 @@ const Product = () => {
   const { addToCart, isLoading } = useCartStore();
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const { isOpen } = useModalStore();
 
   const handleAddToCart = async () => {
@@ -25,7 +26,8 @@ const Product = () => {
       size,
       image,
       detailProduct.price,
-      detailProduct.name
+      detailProduct.name,
+      quantity
     );
   };
 
@@ -91,21 +93,49 @@ const Product = () => {
           <p className="mt-5 text-gray-500 md:w-4/5">
             {detailProduct.description}
           </p>
-          <div className="flex flex-col gap-4 my-8">
-            <p>Select Size</p>
-            <div className="flex gap-2">
-              {detailProduct.sizes &&
-                detailProduct.sizes.map((item, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSize(item)}
-                    className={`border py-2 px-4 bg-gray-100 ${
-                      item === size ? "border-orange-500" : ""
-                    }`}
-                  >
-                    {item}
-                  </button>
-                ))}
+          <div className="flex flex-col sm:flex-row justify-between">
+            <div className="flex flex-col gap-4 my-8">
+              <p>Select Size</p>
+              <div className="flex gap-2">
+                {detailProduct.sizes &&
+                  detailProduct.sizes.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSize(item)}
+                      className={`border py-2 px-4 bg-gray-100 ${
+                        item === size ? "border-orange-500" : ""
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  ))}
+              </div>
+            </div>
+            <div className="flex flex-col gap-4 my-8">
+              <p>Quantity</p>
+              <div className="flex gap-1">
+                <button
+                  onClick={() =>
+                    setQuantity((prev) => {
+                      if (prev > 1) {
+                        return prev - 1;
+                      }
+                      return 1;
+                    })
+                  }
+                  className={`py-2 px-4 bg-gray-100 `}
+                >
+                  -
+                </button>
+                <button className="py-2 px-4 bg-gray-100">{quantity}</button>
+
+                <button
+                  onClick={() => setQuantity((prev) => prev + 1)}
+                  className={`py-2 px-4 bg-gray-100 `}
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
           <button

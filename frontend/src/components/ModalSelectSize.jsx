@@ -9,6 +9,7 @@ const ModalSelectSize = () => {
   const { closeModal, _id } = useModalStore();
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
+  const [quantity, setQuantity] = useState(1);
   const [detailProduct, setDetailProduct] = useState({});
 
   const { addToCart, isLoading } = useCartStore();
@@ -23,7 +24,8 @@ const ModalSelectSize = () => {
       size,
       image,
       detailProduct.price,
-      detailProduct.name
+      detailProduct.name,
+      quantity
     );
     closeModal();
   };
@@ -37,7 +39,6 @@ const ModalSelectSize = () => {
       const response = await axios.get(
         `http://localhost:5000/api/product/${id}`
       );
-      console.log(response.data.product);
       setDetailProduct(response.data.product);
     } catch (error) {
       console.log(error);
@@ -159,21 +160,51 @@ const ModalSelectSize = () => {
                   <p className="text-sm font-medium text-gray-900 ">5.0</p>
                   <p className="text-sm font-medium text-gray-500 ">(455)</p>
                 </div>
-                <div className="flex flex-col gap-4 my-8">
-                  <p>Select Size</p>
-                  <div className="flex gap-2">
-                    {detailProduct.sizes &&
-                      detailProduct.sizes.map((item, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setSize(item)}
-                          className={`border py-2 px-4 bg-gray-100 ${
-                            item === size ? "border-orange-500" : ""
-                          }`}
-                        >
-                          {item}
-                        </button>
-                      ))}
+                <div className="flex flex-col sm:flex-row justify-between">
+                  <div className="flex flex-col gap-4 my-8">
+                    <p>Select Size</p>
+                    <div className="flex gap-2">
+                      {detailProduct.sizes &&
+                        detailProduct.sizes.map((item, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setSize(item)}
+                            className={`border py-2 px-4 bg-gray-100 ${
+                              item === size ? "border-orange-500" : ""
+                            }`}
+                          >
+                            {item}
+                          </button>
+                        ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-4 my-8">
+                    <p>Quantity</p>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() =>
+                          setQuantity((prev) => {
+                            if (prev > 1) {
+                              return prev - 1;
+                            }
+                            return 1;
+                          })
+                        }
+                        className={`py-2 px-4 bg-gray-100 `}
+                      >
+                        -
+                      </button>
+                      <button className="py-2 px-4 bg-gray-100">
+                        {quantity}
+                      </button>
+
+                      <button
+                        onClick={() => setQuantity((prev) => prev + 1)}
+                        className={`py-2 px-4 bg-gray-100 `}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <hr className="mt-8 sm:w-4/5" />

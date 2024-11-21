@@ -18,7 +18,20 @@ export const placeOrder = async (req, res) => {
     const newOrder = new orderModel({ userId, ...orderData });
     await newOrder.save();
 
-    await cartModel.findOneAndDelete({ userId });
+    const cart = await cartModel.findOne({ userId });
+
+    if (cart) {
+      cart.items = cart.items.filter((item) => {
+        return !items.some((i) => {
+          return (
+            i.itemId.toString() === item.itemId.toString() &&
+            i.size === item.size
+          );
+        });
+      });
+    }
+
+    await cart.save();
 
     res.status(200).json({ success: true, message: "Order Placed" });
   } catch (error) {
@@ -29,7 +42,10 @@ export const placeOrder = async (req, res) => {
 // All orders data for Admin
 export const allOrders = async (req, res) => {
   try {
-    const orders = await orderModel.find().populate("userId");
+    const orders = await orderModel
+      .find()
+      .populate("userId")
+      .sort({ date: -1 });
     res.status(200).json({ success: true, orders });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

@@ -8,7 +8,7 @@ import useOrderStore from "../store/orderStore";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
-  const { cartItems, getCartAmount } = useCartStore();
+  const { totalAmount, itemsToOrder } = useOrderStore();
   const { placeOrder } = useOrderStore();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -30,30 +30,26 @@ const PlaceOrder = () => {
     e.preventDefault();
     let orderItems = [];
 
-    for (const items in cartItems) {
-      for (const item in cartItems[items]) {
-        if (cartItems[items][item].quantity) {
-          orderItems.push({
-            name: cartItems[items][item].name,
-            quantity: cartItems[items][item].quantity,
-            price: cartItems[items][item].price,
-            image: cartItems[items][item].image,
-            itemId: cartItems[items][item].itemId,
-            size: cartItems[items][item].size,
-          });
-        }
-      }
-    }
+    itemsToOrder.forEach((item) => {
+      orderItems.push({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+        image: item.image,
+        itemId: item.itemId,
+        size: item.size,
+      });
+    });
 
     let orderData = {
       address: formData,
       items: orderItems,
-      totalAmount: getCartAmount(),
+      totalAmount: totalAmount,
     };
 
     try {
       await placeOrder(orderData);
-      navigate("/orders");
+      window.location.href = "/orders";
     } catch (error) {
       console.log(error);
     }
@@ -154,7 +150,7 @@ const PlaceOrder = () => {
 
       <div className="mt-8">
         <div className="mt-8 min-w-80">
-          <CartTotal />
+          <CartTotal totalAmount={totalAmount} />
         </div>
 
         <div className="mt-12">

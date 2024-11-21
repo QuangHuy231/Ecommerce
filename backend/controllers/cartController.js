@@ -2,7 +2,7 @@ import Cart from "../models/cartModel.js";
 
 export const addToCart = async (req, res) => {
   const userId = req.userId;
-  const { itemId, size, image, price, name } = req.body;
+  const { itemId, size, image, price, name, quantity } = req.body;
 
   try {
     let cart = await Cart.findOne({ userId });
@@ -19,10 +19,10 @@ export const addToCart = async (req, res) => {
 
     if (existingItem) {
       // Nếu mục đã tồn tại, tăng quantity
-      existingItem.quantity += 1;
+      existingItem.quantity += quantity;
     } else {
       // Nếu mục chưa tồn tại, thêm mục mới vào items
-      cart.items.push({ itemId, size, quantity: 1, image, price, name });
+      cart.items.push({ itemId, size, quantity, image, price, name });
     }
 
     await cart.save();

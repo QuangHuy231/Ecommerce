@@ -15,7 +15,7 @@ const productRouter = express.Router();
 
 productRouter.get("/lastest-product", getLastestProduct);
 productRouter.get("/best-seller", getBestSellerProduct);
-productRouter.get("/", adminAuth, getAllProducts);
+productRouter.get("/", getAllProducts);
 productRouter.get("/:id", getDetailProduct);
 productRouter.post("/related-product", getRelatedProducts);
 

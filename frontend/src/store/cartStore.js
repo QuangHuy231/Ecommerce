@@ -19,7 +19,7 @@ export const useCartStore = create((set, get) => ({
     }
   },
 
-  addToCart: async (itemId, size, image, price, name) => {
+  addToCart: async (itemId, size, image, price, name, quantity) => {
     set({ isLoading: true });
     try {
       const response = await axios.post(`${API_URL}/add-to-cart`, {
@@ -28,6 +28,7 @@ export const useCartStore = create((set, get) => ({
         image,
         price,
         name,
+        quantity,
       });
       set({ cartItems: response.data.cart });
       toast.success("Product added to cart");
@@ -82,19 +83,5 @@ export const useCartStore = create((set, get) => ({
       }
     }
     return total;
-  },
-
-  getCartAmount: () => {
-    let totalAmount = 0;
-
-    for (const items in get().cartItems) {
-      for (const item in get().cartItems[items]) {
-        if (get().cartItems[items][item].quantity)
-          totalAmount +=
-            get().cartItems[items][item].quantity *
-            get().cartItems[items][item].price;
-      }
-    }
-    return totalAmount;
   },
 }));

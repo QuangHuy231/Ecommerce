@@ -45,7 +45,7 @@ const Order = ({ token }) => {
               {order.items.map((item, index) => {
                 if (index === order.items.length - 1) {
                   return (
-                    <p className="py-0.5">
+                    <p key={index} className="py-0.5">
                       {item.name} x {item.quantity} <span>{item.size}</span>
                     </p>
                   );
@@ -68,7 +68,8 @@ const Order = ({ token }) => {
             </div>
             <div>
               <p className="text-sm sm:text-[15px]">
-                Items : {order.items.length}
+                Items :{" "}
+                {order.items.reduce((acc, item) => acc + item.quantity, 0)}
               </p>
               <p className="mt-3">Method : {order.paymentMethod}</p>
               <p>Payment : {order.payment ? "Done" : "Pending"}</p>

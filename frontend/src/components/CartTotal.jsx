@@ -1,10 +1,7 @@
 import React from "react";
-import { useCartStore } from "../store/cartStore";
 import Title from "./Title";
 
-const CartTotal = () => {
-  const { getCartAmount } = useCartStore();
-
+const CartTotal = ({ totalAmount }) => {
   return (
     <div className="w-full">
       <div className="text-2xl">
@@ -14,7 +11,7 @@ const CartTotal = () => {
       <div className="flex flex-col gap-2 mt-2 text-sm ">
         <div className="flex justify-between">
           <p>Subtotal</p>
-          <p>$ {getCartAmount()}.00</p>
+          <p>$ {totalAmount}.00</p>
         </div>
         <hr />
         <div className="flex justify-between">
@@ -24,7 +21,7 @@ const CartTotal = () => {
         <hr />
         <div className="flex justify-between">
           <b>Total</b>
-          <b>$ {getCartAmount() === 0 ? 0 : getCartAmount() + 10}.00</b>
+          <b>$ {totalAmount === 0 ? 0 : totalAmount + 10}.00</b>
         </div>
       </div>
     </div>

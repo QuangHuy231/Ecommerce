@@ -1,14 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useCartStore } from "../store/cartStore";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
 import { Link, useNavigate } from "react-router-dom";
+import useOrderStore from "../store/orderStore";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart } = useCartStore();
 
+  const { setTotalAmount, addItemsToOrder } = useOrderStore();
+
   const navigate = useNavigate();
+
+  const [selecedItems, setSelectedItems] = useState([]);
+  const getCartAmount = () => {
+    let totalAmount = 0;
+    for (const item of selecedItems) {
+      totalAmount += item.quantity * item.price;
+    }
+    return totalAmount;
+  };
+
+  const handlePlaceOrder = () => {
+    if (selecedItems.length > 0) {
+      addItemsToOrder(selecedItems);
+      setTotalAmount(getCartAmount());
+      navigate("/place-order");
+    } else {
+      toast.error("Please select at least one product");
+    }
+  };
+
+  useEffect(() => {
+    getCartAmount();
+  }, []);
 
   return (
     <div className="border-t pt-14">
@@ -21,8 +48,21 @@ const Cart = () => {
           cartItems.items.map((item, index) => (
             <div
               key={index}
-              className="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+              className="py-4 border-t border-b text-gray-700 grid grid-cols-[0.5fr_4fr_0.5fr_0.5fr] sm:grid-cols-[0.5fr_4fr_2fr_0.5fr] items-center gap-4"
             >
+              <input
+                type="checkbox"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedItems([...selecedItems, item]);
+                  } else {
+                    setSelectedItems(
+                      selecedItems.filter((i) => i._id !== item._id)
+                    );
+                  }
+                }}
+                className=" w-4 h-4"
+              />
               <div className="flex items-start gap-6">
                 <img src={item.image} alt="" className="w-16 sm:w-20" />
                 <div>
@@ -66,11 +106,13 @@ const Cart = () => {
 
       <div className="flex justify-end my-20">
         <div className="w-full sm:w-[450px]">
-          <CartTotal />
+          <CartTotal totalAmount={getCartAmount()} />
           <div className="w-full text-end">
             <button
-              onClick={() => navigate("/place-order")}
-              className="bg-black text-white text-sm my-8 px-8 py-3"
+              onClick={handlePlaceOrder}
+              className={`bg-black text-white text-sm my-8 px-8 py-3 ${
+                selecedItems.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
               PROCEED TO CHECKOUT
             </button>
