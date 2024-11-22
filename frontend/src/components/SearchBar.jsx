@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useProductStore } from "../store/productStore";
-import { assets } from "../assets/assets";
 import { useLocation } from "react-router-dom";
+import { IoIosSearch } from "react-icons/io";
+import { RxCross1 } from "react-icons/rx";
 
 const SearchBar = () => {
   const { search, showSearch, setSearch, setShowSearch } = useProductStore();
@@ -25,13 +26,11 @@ const SearchBar = () => {
           placeholder="Search"
           className="flex-1 outline-none bg-inherit text-sm"
         />
-        <img className="w-4" src={assets.search_icon} alt="" />
+        <IoIosSearch className="size-4" />
       </div>
-      <img
+      <RxCross1
         onClick={() => setShowSearch(false)}
-        className="inline w-3 cursor-pointer"
-        src={assets.cross_icon}
-        alt=""
+        className="inline size-4 cursor-pointer"
       />
     </div>
   ) : null;

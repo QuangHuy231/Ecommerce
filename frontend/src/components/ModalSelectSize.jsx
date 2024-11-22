@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useProductStore } from "../store/productStore";
 import { useModalStore } from "../store/modalStore";
 import { toast } from "react-toastify";
 import { useCartStore } from "../store/cartStore";
@@ -55,8 +54,8 @@ const ModalSelectSize = () => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 z-40"></div>
-      <div className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full">
+      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 z-10"></div>
+      <div className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-20 justify-center items-center w-full md:inset-0 h-full">
         <div className="relative p-4 w-full max-w-3xl h-auto ">
           {/* <!-- Modal content --> */}
           <div className="relative p-4 bg-white rounded-lg shadow sm:p-5">

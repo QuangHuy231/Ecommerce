@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { assets } from "../assets/assets";
 import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
 import { useProductStore } from "../store/productStore";
 import ModalSelectSize from "../components/ModalSelectSize";
 import { useModalStore } from "../store/modalStore";
+import { FaAngleRight } from "react-icons/fa6";
 
 const Collection = () => {
   const { products, getAllProducts, search, showSearch } = useProductStore();
@@ -96,10 +96,8 @@ const Collection = () => {
           className="my-2 text-xl flex items-center cursor-pointer gap-2"
         >
           FILTERS
-          <img
-            className={`h-3 sm:hidden ${showFilter ? "rotate-90" : ""}`}
-            src={assets.dropdown_icon}
-            alt=""
+          <FaAngleRight
+            className={`size-4 sm:hidden ${showFilter ? "rotate-90" : ""}`}
           />
         </p>
         {/* Category Filter */}

@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useProductStore } from "../store/productStore";
 import { useAuthStore } from "../store/authStore";
 import { useCartStore } from "../store/cartStore";
+import { IoIosSearch } from "react-icons/io";
+import { LuUserCircle2 } from "react-icons/lu";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { TbMenuDeep } from "react-icons/tb";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
@@ -48,24 +53,19 @@ const Navbar = () => {
       </ul>
       {/* Right container : Cart , login, search */}
       <div className="flex items-center gap-6">
-        <img
+        <IoIosSearch
+          className="size-6 cursor-pointer"
           onClick={() => {
             setShowSearch(true);
             navigate("/collection");
           }}
-          src={assets.search_icon}
-          alt="search-icon"
-          className="w-5 cursor-pointer"
         />
 
         {user ? (
           <>
             <div className="group relative">
-              <img
-                src={assets.profile_icon}
-                alt="profile-icon"
-                className="w-5 cursor-pointer"
-              />
+              <LuUserCircle2 className="size-6 cursor-pointer " />
+
               <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
                 <div className="flex flex-col gap2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
                   <p className="cursor-pointer hover:text-black ">My Profile</p>
@@ -86,11 +86,7 @@ const Navbar = () => {
             </div>
 
             <Link to={"/cart"} className="relative">
-              <img
-                src={assets.cart_icon}
-                alt="cart-icon"
-                className="w-5 min-w-5"
-              />
+              <HiOutlineShoppingBag className="size-6 min-w-6" />
               <span className="absolute -bottom-2 -right-2 text-xs w-4 h-4 flex items-center justify-center rounded-full bg-red-500 text-white">
                 {getCartCount()}
               </span>
@@ -105,17 +101,15 @@ const Navbar = () => {
         )}
 
         {/* Mobile menu */}
-        <img
-          src={assets.menu_icon}
-          alt="menu-icon"
-          className="w-5 cursor-pointer sm:hidden"
+        <TbMenuDeep
+          className="size-6 cursor-pointer sm:hidden"
           onClick={() => setVisible(!visible)}
         />
       </div>
 
       {/* Sidebar menu for mobile */}
       <div
-        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
+        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all z-50 ${
           visible ? "w-full" : "w-0"
         }`}
       >
@@ -124,11 +118,7 @@ const Navbar = () => {
             onClick={() => setVisible(!visible)}
             className="flex items-center gap-4 p-3 cursor-pointer"
           >
-            <img
-              src={assets.dropdown_icon}
-              alt="back-icon"
-              className="h-4 rotate-180"
-            />
+            <IoIosArrowBack className="size-4" />
             <p>Back</p>
           </div>
           <NavLink

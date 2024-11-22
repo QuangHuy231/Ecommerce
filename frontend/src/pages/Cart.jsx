@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCartStore } from "../store/cartStore";
 import Title from "../components/Title";
-import { assets } from "../assets/assets";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import CartTotal from "../components/CartTotal";
 import { Link, useNavigate } from "react-router-dom";
 import useOrderStore from "../store/orderStore";
@@ -101,11 +101,9 @@ const Cart = () => {
                 min={1}
                 defaultValue={item.quantity}
               />
-              <img
+              <RiDeleteBin6Line
                 onClick={() => removeFromCart(item._id, item.size)}
-                className="w-4 mr-4 sm:w-5 cursor-pointer z-50"
-                src={assets.bin_icon}
-                alt=""
+                className="size-6 mr-4 sm:w-5 cursor-pointer z-20"
               />
             </div>
           ))}
