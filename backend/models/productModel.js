@@ -37,6 +37,10 @@ const productSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  stock: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Product =

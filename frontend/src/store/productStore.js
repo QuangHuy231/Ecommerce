@@ -43,7 +43,9 @@ export const useProductStore = create((set) => ({
     set({ isLoading: true });
     try {
       const response = await axios.get(`${API_URL}`);
-      set({ products: response.data.products });
+      set({
+        products: response.data.products,
+      });
     } catch (error) {
       console.log(error);
     } finally {

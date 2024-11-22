@@ -3,7 +3,9 @@ import { v2 as cloudinary } from "cloudinary";
 
 export const getLastestProduct = async (req, res) => {
   try {
-    const products = await Product.find()
+    const products = await Product.find({
+      stock: { $gt: 0 },
+    })
       .sort({ createdAt: "asc" })
       .limit(8)
       .select("name images price _id");
@@ -21,6 +23,7 @@ export const getBestSellerProduct = async (req, res) => {
   try {
     const products = await Product.find({
       bestSeller: true,
+      stock: { $gt: 0 },
     })
       .sort({ createdAt: -1 })
       .limit(4)
@@ -37,8 +40,9 @@ export const getBestSellerProduct = async (req, res) => {
 export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find().select(
-      "name images price _id category subCategory"
+      "name images price _id category subCategory stock"
     );
+
     res.status(200).json({
       success: true,
       products,
@@ -52,7 +56,7 @@ export const getDetailProduct = async (req, res) => {
   const id = req.params.id;
   try {
     const product = await Product.findById(id).select(
-      "name images price _id description category subCategory sizes"
+      "name images price _id description category subCategory sizes stock"
     );
     res.status(200).json({
       success: true,
@@ -90,6 +94,7 @@ export const createProduct = async (req, res) => {
       description,
       category,
       sizes,
+      stock,
       subCategory,
       bestSeller,
     } = req.body;
@@ -119,6 +124,7 @@ export const createProduct = async (req, res) => {
       category,
       sizes: JSON.parse(sizes),
       subCategory,
+      stock: Number(stock),
       bestSeller: bestSeller === "true" ? true : false,
       images: imageUrl,
       date: Date.now(),

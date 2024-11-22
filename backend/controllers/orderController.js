@@ -1,5 +1,7 @@
 import orderModel from "../models/orderModel.js";
 import cartModel from "../models/cartModel.js";
+import productModel from "../models/productModel.js";
+import mongoose from "mongoose";
 
 export const placeOrder = async (req, res) => {
   try {
@@ -15,23 +17,45 @@ export const placeOrder = async (req, res) => {
       date: Date.now(),
     };
 
-    const newOrder = new orderModel({ userId, ...orderData });
-    await newOrder.save();
+    const session = await mongoose.startSession();
+    try {
+      session.startTransaction();
 
-    const cart = await cartModel.findOne({ userId });
+      const newOrder = new orderModel({ userId, ...orderData });
+      await newOrder.save();
 
-    if (cart) {
-      cart.items = cart.items.filter((item) => {
-        return !items.some((i) => {
-          return (
-            i.itemId.toString() === item.itemId.toString() &&
-            i.size === item.size
-          );
+      const cart = await cartModel.findOne({ userId });
+      if (cart) {
+        cart.items = cart.items.filter((item) => {
+          return !items.some((i) => {
+            return (
+              i.itemId.toString() === item.itemId.toString() &&
+              i.size === item.size
+            );
+          });
         });
-      });
-    }
+        await cart.save();
+      }
 
-    await cart.save();
+      for (const item of items) {
+        const product = await productModel.findById(item.itemId);
+        if (product.stock < item.quantity) {
+          throw new Error(
+            `Sản phẩm ${product.name} không đủ hàng tồn kho (cần ${item.quantity}, còn ${product.stock})`
+          );
+        }
+        product.stock -= item.quantity;
+        await product.save();
+      }
+
+      await session.commitTransaction();
+    } catch (error) {
+      console.error("Order creation failed: ", error.message);
+      await session.abortTransaction();
+      // Rollback logic nếu cần (manual rollback)
+    } finally {
+      await session.endSession();
+    }
 
     res.status(200).json({ success: true, message: "Order Placed" });
   } catch (error) {

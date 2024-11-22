@@ -15,6 +15,10 @@ const ModalSelectSize = () => {
   const { addToCart, isLoading } = useCartStore();
 
   const handleAddToCart = async () => {
+    if (quantity > detailProduct.stock) {
+      toast.error("Product out of stock");
+      return;
+    }
     if (!size) {
       toast.error("Please select size");
       return;
@@ -179,7 +183,12 @@ const ModalSelectSize = () => {
                     </div>
                   </div>
                   <div className="flex flex-col gap-4 my-8">
-                    <p>Quantity</p>
+                    <p>
+                      Quantity{" "}
+                      <span className="text-gray-500">
+                        (Available: {detailProduct.stock})
+                      </span>
+                    </p>
                     <div className="flex gap-1">
                       <button
                         onClick={() =>
@@ -199,7 +208,14 @@ const ModalSelectSize = () => {
                       </button>
 
                       <button
-                        onClick={() => setQuantity((prev) => prev + 1)}
+                        onClick={() =>
+                          setQuantity((prev) => {
+                            if (prev < detailProduct.stock) {
+                              return prev + 1;
+                            }
+                            return prev;
+                          })
+                        }
                         className={`py-2 px-4 bg-gray-100 `}
                       >
                         +
