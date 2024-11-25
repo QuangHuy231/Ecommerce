@@ -50,7 +50,7 @@ const Cart = () => {
               key={index}
               className={`py-4 border-t border-b text-gray-700 grid grid-cols-[0.5fr_4fr_0.5fr_0.5fr] sm:grid-cols-[0.5fr_4fr_2fr_0.5fr] items-center gap-4 relative`}
             >
-              {item.itemId.stock === 0 && (
+              {item.itemId?.stock === 0 && (
                 <div className="absolute inset-0 bg-gray-200 bg-opacity-70 flex items-center justify-center z-10">
                   <p className="text-sm sm:text-lg font-medium text-red-600">
                     Hết hàng
@@ -73,7 +73,7 @@ const Cart = () => {
               <div className="flex items-start gap-6">
                 <img src={item.image} alt="" className="w-16 sm:w-20" />
                 <div>
-                  <Link to={`/product/${item.itemId._id}`}>
+                  <Link to={`/product/${item.itemId?._id}`}>
                     <p className="text-xs sm:text-lg font-medium">
                       {item.name}
                     </p>
