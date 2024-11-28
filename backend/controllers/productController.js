@@ -161,3 +161,74 @@ export const removeProduct = async (req, res) => {
     });
   }
 };
+
+export const updateProduct = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const {
+      name,
+      price,
+      description,
+      category,
+      sizes,
+      stock,
+      subCategory,
+      bestSeller,
+    } = req.body;
+
+    const image1 = req.files?.image1?.[0];
+    const image2 = req.files?.image2?.[0];
+    const image3 = req.files?.image3?.[0];
+    const image4 = req.files?.image4?.[0];
+
+    const images = [image1, image2, image3, image4].filter(
+      (item) => item !== undefined
+    );
+
+    const product = await Product.findById(id);
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+
+    let existingImages = product.images; // Hình ảnh cũ
+
+    const newImages = await Promise.all(
+      images.map(async (image) => {
+        const result = await cloudinary.uploader.upload(image.path, {
+          folder: "ecommerce",
+        });
+        return result.secure_url;
+      })
+    );
+
+    const updatedImages = [...existingImages, ...newImages];
+
+    await Product.findByIdAndUpdate(
+      id,
+      {
+        name,
+        price: Number(price),
+        description,
+        category,
+        sizes: JSON.parse(sizes),
+        subCategory,
+        stock: Number(stock),
+        bestSeller: bestSeller === "true" ? true : false,
+        images: updatedImages,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

@@ -163,7 +163,7 @@ const ModalSelectSize = () => {
                   <p className="text-sm font-medium text-gray-900 ">5.0</p>
                   <p className="text-sm font-medium text-gray-500 ">(455)</p>
                 </div>
-                <div className="flex flex-col sm:flex-row justify-between">
+                <div className="flex flex-col sm:flex-row justify-between flex-wrap">
                   <div className="flex flex-col gap-4 my-8">
                     <p>Select Size</p>
                     <div className="flex gap-2">

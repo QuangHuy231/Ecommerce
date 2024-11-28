@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { PiPackage } from "react-icons/pi";
+import { IoIosArrowDropdown } from "react-icons/io";
 
 const Order = ({ token }) => {
   const [orders, setOrders] = useState([]);
+  const [expandedOrder, setExpandedOrder] = useState(null); // Lưu ID của order đang được mở
 
   const fetchOrders = async () => {
     try {
@@ -15,6 +17,7 @@ const Order = ({ token }) => {
       console.log(error);
     }
   };
+
   const updateStatus = async (id, event) => {
     try {
       await axios.post(
@@ -34,23 +37,17 @@ const Order = ({ token }) => {
   useEffect(() => {
     fetchOrders();
   }, [token]);
+
+  console.log(orders);
+
   return (
     <>
       <h3>Orders Page</h3>
-      {orders.map((order, index) => (
-        <div key={index}>
-          <div className="grid grid-cols-1 sm:grid-cols-[0.5fr_2fr_1fr] lg:grid-cols-[0.5fr_2fr_1fr_1fr_1fr] gap-3 items-start border-2 border-gray-200 p-5 md:p-8 my-3 md:my-4 text-xs sm:text-sm text-gray-700">
+      {orders.map((order) => (
+        <div key={order._id}>
+          <div className="grid grid-cols-1 sm:grid-cols-[0.5fr_2fr_1fr_0.5fr] lg:grid-cols-[0.5fr_2fr_1fr_1fr_1fr_0.5fr] gap-3 items-start border-2 border-gray-200 p-5 md:p-8 my-3 md:my-4 text-xs sm:text-sm text-gray-700">
             <PiPackage className="size-16" />
             <div>
-              {order.items.map((item, index) => {
-                if (index === order.items.length - 1) {
-                  return (
-                    <p key={index} className="py-0.5">
-                      {item.name} x {item.quantity} <span>{item.size}</span>
-                    </p>
-                  );
-                }
-              })}
               <p className="mt-3 mb-2 font-medium">
                 {order.address.firstName + " " + order.address.lastName}
               </p>
@@ -87,7 +84,33 @@ const Order = ({ token }) => {
               <option value="Out for delivery">Out for delivery</option>
               <option value="Delivered">Delivered</option>
             </select>
+
+            <div className="flex items-center justify-center ">
+              <IoIosArrowDropdown
+                onClick={() =>
+                  setExpandedOrder(
+                    expandedOrder === order._id ? null : order._id
+                  )
+                }
+                className={`size-8 cursor-pointer ${
+                  expandedOrder === order._id ? "rotate-180" : ""
+                }`}
+              />
+            </div>
           </div>
+
+          {expandedOrder === order._id &&
+            order.items.map((item, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-[1fr_3fr_1fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr] items-center gap-2 py-1 px-2 border text-sm"
+              >
+                <img className="w-12" src={item.image} alt="" />
+                <p>{item.name}</p>
+                <p>$ {item.price}</p>
+                <p>Quantity: {item.quantity}</p>
+              </div>
+            ))}
         </div>
       ))}
     </>

@@ -1,6 +1,7 @@
 import express from "express";
 import {
   allOrders,
+  cancelOrder,
   placeOrder,
   updateStatus,
   userOrders,
@@ -17,5 +18,7 @@ orderRouter.post("/status", updateStatus);
 orderRouter.post("/place-order", verifyToken, placeOrder);
 
 orderRouter.get("/", verifyToken, userOrders);
+
+orderRouter.delete("/cancel/:id", verifyToken, cancelOrder);
 
 export default orderRouter;
