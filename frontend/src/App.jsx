@@ -16,6 +16,7 @@ import Loading from "./components/Loading.jsx";
 import { useEffect } from "react";
 import Signup from "./pages/Signup.jsx";
 import { useCartStore } from "./store/cartStore.js";
+import UserProfile from "./pages/UserProfile.jsx";
 
 function App() {
   const { isCheckingAuth, checkAuth, user } = useAuthStore();
@@ -45,7 +46,8 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/place-order" element={<PlaceOrder />} />
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/orders" element={<Orders />} />\
+        <Route path="/user-profile" element={<UserProfile />} />
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/" />}

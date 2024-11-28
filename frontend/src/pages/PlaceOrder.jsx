@@ -3,23 +3,24 @@ import Title from "../components/Title";
 import CartTotal from "../components/CartTotal";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
-import { useCartStore } from "../store/cartStore";
 import useOrderStore from "../store/orderStore";
+import { useAuthStore } from "../store/authStore";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
   const { totalAmount, itemsToOrder } = useOrderStore();
+  const { user } = useAuthStore();
   const { placeOrder } = useOrderStore();
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    street: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    country: "",
-    phone: "",
+    firstName: user?.name || "",
+    lastName: user?.name || "",
+    email: user?.email || "",
+    street: user?.address?.street || "",
+    city: user?.address?.city || "",
+    state: user?.address?.state || "",
+    zipCode: user?.address?.zipCode || "",
+    country: user?.address?.country || "",
+    phone: user?.phone || "",
   });
 
   const handleChange = (e) => {

@@ -148,4 +148,45 @@ const checkAuth = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, adminLogin, checkAuth, logout };
+const updateUserProfile = async (req, res) => {
+  const { userId } = req;
+  const { name, email, phone, address } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        name,
+        email,
+        phone,
+        address,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+export {
+  loginUser,
+  registerUser,
+  adminLogin,
+  checkAuth,
+  logout,
+  updateUserProfile,
+};
