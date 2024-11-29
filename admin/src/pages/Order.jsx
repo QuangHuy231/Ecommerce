@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { PiPackage } from "react-icons/pi";
 import { IoIosArrowDropdown } from "react-icons/io";
+import { toast } from "react-toastify";
 
 const Order = ({ token }) => {
   const [orders, setOrders] = useState([]);
@@ -28,6 +29,7 @@ const Order = ({ token }) => {
         },
         { headers: { token } }
       );
+      toast.success("Status updated successfully");
       fetchOrders();
     } catch (error) {
       console.log(error);
@@ -37,8 +39,6 @@ const Order = ({ token }) => {
   useEffect(() => {
     fetchOrders();
   }, [token]);
-
-  console.log(orders);
 
   return (
     <>

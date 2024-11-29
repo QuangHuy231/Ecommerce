@@ -125,7 +125,7 @@ export const createProduct = async (req, res) => {
       sizes: JSON.parse(sizes),
       subCategory,
       stock: Number(stock),
-      bestSeller: bestSeller === "true" ? true : false,
+      bestSeller,
       images: imageUrl,
       date: Date.now(),
     };

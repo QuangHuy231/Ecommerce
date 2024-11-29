@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const List = ({ token }) => {
   const [list, setList] = useState([]);
@@ -23,9 +24,11 @@ const List = ({ token }) => {
           headers: { token },
         }
       );
+      toast.success("Product deleted successfully");
       getList();
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 

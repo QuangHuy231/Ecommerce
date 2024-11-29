@@ -15,7 +15,7 @@ const Add = ({ token }) => {
   const [stock, setStock] = useState("");
   const [category, setCategory] = useState("Men");
   const [subCategory, setSubCategory] = useState("Topwear");
-  const [bestseller, setBestseller] = useState(false);
+  const [bestSeller, setBestSeller] = useState(false);
   const [sizes, setSizes] = useState([]);
 
   const handleSubmit = async (e) => {
@@ -33,7 +33,7 @@ const Add = ({ token }) => {
       formData.append("stock", stock);
       formData.append("category", category);
       formData.append("subCategory", subCategory);
-      formData.append("bestseller", bestseller);
+      formData.append("bestSeller", bestSeller);
       formData.append("sizes", JSON.stringify(sizes));
 
       const res = await axios.post(
@@ -202,7 +202,7 @@ const Add = ({ token }) => {
             <p
               className={`${
                 sizes.includes("S") ? "bg-pink-300" : "bg-slate-200"
-              } bg-slate-200 px-3 py-1 cursor-pointer`}
+              } px-3 py-1 cursor-pointer`}
             >
               S
             </p>
@@ -219,7 +219,7 @@ const Add = ({ token }) => {
             <p
               className={`${
                 sizes.includes("M") ? "bg-pink-300" : "bg-slate-200"
-              } bg-slate-200 px-3 py-1 cursor-pointer`}
+              } px-3 py-1 cursor-pointer`}
             >
               M
             </p>
@@ -236,7 +236,7 @@ const Add = ({ token }) => {
             <p
               className={`${
                 sizes.includes("L") ? "bg-pink-300" : "bg-slate-200"
-              } bg-slate-200 px-3 py-1 cursor-pointer`}
+              } px-3 py-1 cursor-pointer`}
             >
               L
             </p>
@@ -253,7 +253,7 @@ const Add = ({ token }) => {
             <p
               className={`${
                 sizes.includes("XL") ? "bg-pink-300" : "bg-slate-200"
-              } bg-slate-200 px-3 py-1 cursor-pointer`}
+              } px-3 py-1 cursor-pointer`}
             >
               XL
             </p>
@@ -270,7 +270,7 @@ const Add = ({ token }) => {
             <p
               className={`${
                 sizes.includes("XXL") ? "bg-pink-300" : "bg-slate-200"
-              } bg-slate-200 px-3 py-1 cursor-pointer`}
+              } px-3 py-1 cursor-pointer`}
             >
               XXL
             </p>
@@ -279,13 +279,13 @@ const Add = ({ token }) => {
       </div>
       <div className="flex gap-2 mt-2">
         <input
-          onChange={() => setBestseller((prev) => !prev)}
-          checked={bestseller}
+          onChange={() => setBestSeller((prev) => !prev)}
+          checked={bestSeller}
           type="checkbox"
-          id="bestseller"
+          id="bestSeller"
         />
         <label className="cursor-pointer" htmlFor="bestseller">
-          Add to bestseller
+          Add to best seller
         </label>
       </div>
       <button type="submit" className="w-28 py-3 mt-4 bg-black text-white">
