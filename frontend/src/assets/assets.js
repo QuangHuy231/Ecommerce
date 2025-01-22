@@ -7,6 +7,8 @@ import about from "./about.png";
 import contact from "./contact.png";
 import stripe_logo from "./stripe_logo.png";
 import razor_icon from "./razor_icon.png";
+import momo_logo from "./momo_logo.png";
+import vnpay_logo from "./vnpay_logo.png";
 
 export const assets = {
   logo,
@@ -18,4 +20,6 @@ export const assets = {
   contact,
   stripe_logo,
   razor_icon,
+  momo_logo,
+  vnpay_logo,
 };

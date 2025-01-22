@@ -5,9 +5,12 @@ import { useProductStore } from "../store/productStore";
 import ModalSelectSize from "../components/ModalSelectSize";
 import { useModalStore } from "../store/modalStore";
 import { FaAngleRight } from "react-icons/fa6";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import Loading from "../components/Loading";
 
 const Collection = () => {
-  const { products, getAllProducts, search, showSearch } = useProductStore();
+  const { search, showSearch } = useProductStore();
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -74,6 +77,18 @@ const Collection = () => {
         break;
     }
   };
+
+  const getAllProducts = async () => {
+    const response = await axios.get(`http://localhost:5000/api/product`);
+    return response.data.products;
+  };
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["all-products"],
+    queryFn: getAllProducts,
+  });
+
+  const products = data || [];
 
   useEffect(() => {
     getAllProducts();
@@ -179,27 +194,31 @@ const Collection = () => {
       </div>
 
       {/* Collection */}
-      <div className="flex-1">
-        <div className="flex justify-between text-base sm:text-2xl mb-4">
-          <Title title1={"ALL"} title2={"COLLECTIONS"} />
-          {/* Sort */}
-          <select
-            onChange={(e) => setSortType(e.target.value)}
-            className="border-2 border-gray-300 text-sm px-2"
-          >
-            <option value="relavent">Sort by: Relavent</option>
-            <option value="low-high">Sort by: Low to High</option>
-            <option value="high-low">Sort by: High to Low</option>
-          </select>
-        </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="flex-1">
+          <div className="flex justify-between text-base sm:text-2xl mb-4">
+            <Title title1={"ALL"} title2={"COLLECTIONS"} />
+            {/* Sort */}
+            <select
+              onChange={(e) => setSortType(e.target.value)}
+              className="border-2 border-gray-300 text-sm px-2"
+            >
+              <option value="relavent">Sort by: Relavent</option>
+              <option value="low-high">Sort by: Low to High</option>
+              <option value="high-low">Sort by: High to Low</option>
+            </select>
+          </div>
 
-        {/* Products */}
-        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 gap-y-6">
-          {filterProducts.map((product) => (
-            <ProductItem key={product._id} product={product} />
-          ))}
+          {/* Products */}
+          <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 gap-y-6">
+            {filterProducts.map((product) => (
+              <ProductItem key={product._id} product={product} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Modal */}
       {isOpen && <ModalSelectSize />}

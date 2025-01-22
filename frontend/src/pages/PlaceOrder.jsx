@@ -5,12 +5,13 @@ import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import useOrderStore from "../store/orderStore";
 import { useAuthStore } from "../store/authStore";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
   const { totalAmount, itemsToOrder } = useOrderStore();
   const { user } = useAuthStore();
-  const { placeOrder } = useOrderStore();
   const [formData, setFormData] = useState({
     firstName: user?.name || "",
     lastName: user?.name || "",
@@ -21,6 +22,7 @@ const PlaceOrder = () => {
     zipCode: user?.address?.zipCode || "",
     country: user?.address?.country || "",
     phone: user?.phone || "",
+    // note: "",
   });
 
   const handleChange = (e) => {
@@ -49,8 +51,34 @@ const PlaceOrder = () => {
     };
 
     try {
-      await placeOrder(orderData);
-      window.location.href = "/orders";
+      if (method === "cod") {
+        const res = await axios.post(
+          "http://localhost:5000/api/order/place-order",
+          orderData
+        );
+
+        if (res.status === 200) {
+          toast.success("Order placed successfully");
+          window.location.href = "/orders";
+        }
+      }
+      if (method === "momo") {
+        const res = await axios.post(
+          "http://localhost:5000/api/order/pay-momo",
+          orderData
+        );
+
+        const { payUrl } = res.data;
+        window.location.href = payUrl;
+      }
+      // if (method === "vnpay") {
+      //   const res = await axios.post(
+      //     "http://localhost:5000/api/order/pay-vnpay"
+      //   );
+
+      //   const { payUrl } = res.data;
+      //   window.location.href = payUrl;
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -146,6 +174,14 @@ const PlaceOrder = () => {
           type="number"
           placeholder="Phone"
         />
+
+        <textarea
+          name="note"
+          // value={formData.note}
+          // onChange={handleChange}
+          className="border border-gray-300 rounded py-1.5 px-3.5 w-full h-24"
+          placeholder="Note..."
+        />
       </div>
       {/* Right Side */}
 
@@ -158,27 +194,43 @@ const PlaceOrder = () => {
           <Title title1={"PAYMENT"} title2={"METHOD"} />
           {/* Payment Methods Selection */}
           <div className="flex gap-3 flex-col lg:flex-row">
-            <div className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+            <div
+              className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
+              onClick={() => setMethod("momo")}
+            >
               <p
-                onClick={() => setMethod("stripe")}
                 className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === "stripe" ? "bg-green-400" : ""
+                  method === "momo" ? "bg-green-400" : ""
                 }`}
               ></p>
-              <img className="h-5 mx-4" src={assets.stripe_logo} alt="" />
+              <div className="flex items-center gap-3">
+                <img className="h-5 mx-4" src={assets.momo_logo} alt="" />
+                <span className="text-gray-500 text-sm font-medium mx-4">
+                  MOMO
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+            <div
+              className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
+              onClick={() => setMethod("vnpay")}
+            >
               <p
-                onClick={() => setMethod("razorpay")}
                 className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === "razorpay" ? "bg-green-400" : ""
+                  method === "vnpay" ? "bg-green-400" : ""
                 }`}
               ></p>
-              <img className="h-5 mx-4" src={assets.razor_icon} alt="" />
+              <div className="flex items-center gap-3">
+                <img className="h-5 mx-4" src={assets.vnpay_logo} alt="" />
+                <span className="text-gray-500 text-sm font-medium mx-4">
+                  VNPAY
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+            <div
+              className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
+              onClick={() => setMethod("cod")}
+            >
               <p
-                onClick={() => setMethod("cod")}
                 className={`min-w-3.5 h-3.5 border rounded-full ${
                   method === "cod" ? "bg-green-400" : ""
                 }`}

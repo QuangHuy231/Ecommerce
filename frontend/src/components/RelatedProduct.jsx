@@ -20,7 +20,7 @@ const RelatedProduct = ({ _id, category, subCategory }) => {
 
   useEffect(() => {
     getRelatedProducts();
-  }, [category, subCategory]);
+  }, [_id]);
 
   return (
     <div className="my-24">

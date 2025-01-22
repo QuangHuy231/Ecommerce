@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useAuthStore } from "../store/authStore";
+import { useModalYesNoStore } from "../store/modalYesNoStore";
+import ModalYesNo from "../components/ModalYesNo";
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { user, updateUserProfile } = useAuthStore();
+  const { openModal, closeModal, isOpen } = useModalYesNoStore();
 
   const [address, setAddress] = useState({ ...user?.address });
   const [formData, setFormData] = useState({ ...user });
@@ -31,13 +34,13 @@ const UserProfile = () => {
       formData.phone,
       address
     );
+    closeModal();
     setIsEditing(false);
   };
 
   // Cancel editing
   const handleCancel = () => {
-    setTempProfile({ ...user });
-    setIsEditing(false);
+    window.location.reload();
   };
 
   return (
@@ -237,7 +240,7 @@ const UserProfile = () => {
               <>
                 <button
                   type="button"
-                  onClick={handleSave}
+                  onClick={() => openModal()}
                   className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-green-600 rounded-lg focus:ring-4 focus:ring-green-200 dark:focus:ring-green-900 hover:bg-green-700"
                 >
                   Save Profile
@@ -262,6 +265,7 @@ const UserProfile = () => {
           </div>
         </form>
       </div>
+      {isOpen && <ModalYesNo status={"save"} handleYes={handleSave} />}
     </section>
   );
 };

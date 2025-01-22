@@ -1,10 +1,22 @@
 import React from "react";
 import Title from "./Title";
 import ProductItem from "./ProductItem";
-import { useProductStore } from "../store/productStore";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import Loading from "./Loading";
 
 const LastestCollection = () => {
-  const { lastestCollection } = useProductStore();
+  const fetchLatestProducts = async () => {
+    const response = await axios.get(
+      `http://localhost:5000/api/product/lastest-product`
+    );
+    return response.data.products;
+  };
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["latest-products"],
+    queryFn: fetchLatestProducts,
+  });
 
   return (
     <div>
@@ -15,8 +27,9 @@ const LastestCollection = () => {
           industry. Lorem Ipsum has been the.
         </p>
       </div>
+      {isLoading && <Loading />}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
-        {lastestCollection.map((product) => (
+        {data?.map((product) => (
           <ProductItem key={product._id} product={product} />
         ))}
       </div>

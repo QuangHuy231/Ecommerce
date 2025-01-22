@@ -4,15 +4,24 @@ import { useAuthStore } from "../store/authStore";
 import { useOrderStore } from "../store/orderStore";
 import { PiPackage } from "react-icons/pi";
 import { IoIosArrowDropdown } from "react-icons/io";
+import ModalYesNo from "../components/ModalYesNo";
+import { useModalYesNoStore } from "../store/modalYesNoStore";
 
 const Orders = () => {
   const { user } = useAuthStore();
   const { getOrders, orders, cancelOrder } = useOrderStore();
   const [expandedOrder, setExpandedOrder] = useState(null);
+  const { isOpen, openModal, closeModal, setId, _id } = useModalYesNoStore();
 
-  const handleCancelOrder = async (id) => {
-    await cancelOrder(id);
+  const handleCancelOrder = async () => {
+    await cancelOrder(_id);
+    closeModal();
     getOrders();
+  };
+
+  const handleOpenModal = (id) => {
+    openModal();
+    setId(id);
   };
 
   useEffect(() => {
@@ -71,7 +80,7 @@ const Orders = () => {
               </div>
               {order.status === "Order Placed" && (
                 <button
-                  onClick={() => handleCancelOrder(order._id)}
+                  onClick={() => handleOpenModal(order._id)}
                   className="border px-4 py-2 text-sm font-medium rounded-sm bg-red-500 text-white"
                 >
                   Cancel
@@ -84,16 +93,18 @@ const Orders = () => {
             order.items.map((item, index) => (
               <div
                 key={index}
-                className="grid grid-cols-[1fr_3fr_1fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr] items-center gap-2 py-1 px-2 border text-sm"
+                className="grid grid-cols-[1fr_3fr_1fr_1fr_1fr] md:grid-cols-[1fr_3fr_1fr_1fr_1fr] items-center gap-2 py-1 px-2 border text-sm"
               >
                 <img className="w-12" src={item.image} alt="" />
                 <p>{item.name}</p>
+                <p>{item.size}</p>
                 <p>$ {item.price}</p>
                 <p>Quantity: {item.quantity}</p>
               </div>
             ))}
         </div>
       ))}
+      {isOpen && <ModalYesNo status="delete" handleYes={handleCancelOrder} />}
     </div>
   );
 };
