@@ -8,6 +8,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../components/Loading";
+import { use } from "react";
 
 const Collection = () => {
   const { search, showSearch } = useProductStore();
@@ -16,6 +17,7 @@ const Collection = () => {
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState("relavent");
+  const [products, setProducts] = useState([]);
 
   const { isOpen } = useModalStore();
 
@@ -82,15 +84,12 @@ const Collection = () => {
     const response = await axios.get(
       `https://ecommerce-backend-ten-wheat.vercel.app/api/product`
     );
-    return response.data.products;
+    setProducts(response.data.products);
   };
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["all-products"],
-    queryFn: getAllProducts,
-  });
-
-  let products = data || [];
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   useEffect(() => {
     applyFilter();
