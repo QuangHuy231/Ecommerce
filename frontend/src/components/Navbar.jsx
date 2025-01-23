@@ -50,6 +50,13 @@ const Navbar = () => {
           <p>CONTACT</p>
           <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
         </NavLink>
+        <Link
+          target="_blank"
+          to={"https://ecommerce-admin-two-kohl.vercel.app"}
+          className="flex flex-col items-center gap-1 border border-gray-600 px-2 rounded-lg bg-gray-300 text-gray-600"
+        >
+          <p>ADMIN</p>
+        </Link>
       </ul>
       {/* Right container : Cart , login, search */}
       <div className="flex items-center gap-6">
@@ -154,6 +161,14 @@ const Navbar = () => {
           >
             CONTACT
           </NavLink>
+          <Link
+            target="_blank"
+            onClick={() => setVisible(!visible)}
+            to={"https://ecommerce-admin-two-kohl.vercel.app"}
+            className="py-2 pl-6 border bg-gray-300 text-gray-600"
+          >
+            ADMIN
+          </Link>
         </div>
       </div>
     </div>
