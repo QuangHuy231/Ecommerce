@@ -26,7 +26,7 @@ app.use(
       "https://ecommerce-admin-two-kohl.vercel.app",
     ],
     methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type,Authorization",
+    allowedHeaders: "Content-Type,Authorization,token",
     credentials: true, // Cho phép gửi cookie và xác thực
   })
 );
