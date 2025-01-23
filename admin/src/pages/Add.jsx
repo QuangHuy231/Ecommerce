@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { set } from "mongoose";
 
 const Add = ({ token }) => {
   const [image1, setImage1] = useState(false);
