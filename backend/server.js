@@ -23,6 +23,7 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
       "https://ecommerce-frontend-omega-eight.vercel.app",
+      "https://ecommerce-admin-two-kohl.vercel.app",
     ],
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Content-Type,Authorization",
