@@ -10,9 +10,12 @@ const Order = ({ token }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/order/list", {
-        headers: { token },
-      });
+      const res = await axios.get(
+        "https://ecommerce-backend-ten-wheat.vercel.app//api/order/list",
+        {
+          headers: { token },
+        }
+      );
       setOrders(res.data.orders);
     } catch (error) {
       console.log(error);
@@ -22,7 +25,7 @@ const Order = ({ token }) => {
   const updateStatus = async (id, event) => {
     try {
       await axios.post(
-        `http://localhost:5000/api/order/status`,
+        `https://ecommerce-backend-ten-wheat.vercel.app//api/order/status`,
         {
           id,
           status: event.target.value,

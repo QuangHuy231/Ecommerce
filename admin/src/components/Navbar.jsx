@@ -6,7 +6,9 @@ import { toast } from "react-toastify";
 const Navbar = ({ setToken }) => {
   const handleLogout = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/logout");
+      await axios.post(
+        "https://ecommerce-backend-ten-wheat.vercel.app//api/auth/logout"
+      );
       setToken("");
       toast.success("Logged out successfully");
     } catch (error) {

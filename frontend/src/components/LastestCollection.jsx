@@ -8,7 +8,7 @@ import Loading from "./Loading";
 const LastestCollection = () => {
   const fetchLatestProducts = async () => {
     const response = await axios.get(
-      `http://localhost:5000/api/product/lastest-product`
+      `https://ecommerce-backend-ten-wheat.vercel.app//api/product/lastest-product`
     );
     return response.data.products;
   };

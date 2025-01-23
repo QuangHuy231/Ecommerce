@@ -79,7 +79,9 @@ const Collection = () => {
   };
 
   const getAllProducts = async () => {
-    const response = await axios.get(`http://localhost:5000/api/product`);
+    const response = await axios.get(
+      `https://ecommerce-backend-ten-wheat.vercel.app//api/product`
+    );
     return response.data.products;
   };
 

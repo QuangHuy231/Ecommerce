@@ -37,7 +37,7 @@ const Add = ({ token }) => {
       formData.append("sizes", JSON.stringify(sizes));
 
       const res = await axios.post(
-        "http://localhost:5000/api/product/create-product",
+        "https://ecommerce-backend-ten-wheat.vercel.app//api/product/create-product",
         formData,
         { headers: { token } }
       );

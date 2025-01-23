@@ -8,7 +8,7 @@ const RelatedProduct = ({ _id, category, subCategory }) => {
 
   const getRelatedProducts = async () => {
     const res = await axios.post(
-      `http://localhost:5000/api/product/related-product`,
+      `https://ecommerce-backend-ten-wheat.vercel.app//api/product/related-product`,
       {
         category,
         subCategory,

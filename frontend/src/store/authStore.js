@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL = "https://ecommerce-backend-ten-wheat.vercel.app//api/auth";
 axios.defaults.withCredentials = true;
 export const useAuthStore = create((set, get) => ({
   user: null,
