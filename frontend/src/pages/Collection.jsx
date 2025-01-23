@@ -5,10 +5,7 @@ import { useProductStore } from "../store/productStore";
 import ModalSelectSize from "../components/ModalSelectSize";
 import { useModalStore } from "../store/modalStore";
 import { FaAngleRight } from "react-icons/fa6";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Loading from "../components/Loading";
-import { use } from "react";
 
 const Collection = () => {
   const { search, showSearch } = useProductStore();
@@ -89,7 +86,7 @@ const Collection = () => {
 
   useEffect(() => {
     getAllProducts();
-  }, []);
+  }, [products]);
 
   useEffect(() => {
     applyFilter();
