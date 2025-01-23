@@ -1,26 +1,40 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const loginUser = async () => {
+    const res = await axios.post(
+      `https://ecommerce-backend-ten-wheat.vercel.app/api/auth/admin-login`,
+      {
+        email,
+        password,
+      }
+    );
+    return res.data;
+  };
+
+  const mutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      console.log("User:", data);
+      setToken(data.token);
+      toast.success("Logged in successfully");
+    },
+    onError: (error) => {
+      toast.error("Login failed");
+      console.error("Error:", error);
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(
-        `https://ecommerce-backend-ten-wheat.vercel.app/api/auth/admin-login`,
-        {
-          email,
-          password,
-        }
-      );
-      setToken(res.data.token);
-      toast.success("Logged in successfully");
-    } catch (error) {
-      console.log(error);
-    }
+    mutation.mutate(email, password);
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center w-full">
       <div className="bg-white shadow-md rounded-lg px-8 py-6 max-w-md">
@@ -33,9 +47,10 @@ const Login = ({ setToken }) => {
             <input
               className="rounded-md w-full px-3 py-2 border border-gray-300 outline-none"
               type="email"
-              placeholder="your@email.com"
+              placeholder="nguyenquanghuya3kd@gmail.com"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              disabled={mutation.isPending}
             />
           </div>
           <div className="mb-3 min-w-72">
@@ -43,16 +58,17 @@ const Login = ({ setToken }) => {
             <input
               className="rounded-md w-full px-3 py-2 border border-gray-300 outline-none"
               type="password"
-              placeholder="Enter your password"
+              placeholder="123456"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              disabled={mutation.isPending}
             />
           </div>
           <button
             className="mt-2 w-full py-2 px-4 rounded-md text-white bg-black"
             type="submit"
           >
-            Login
+            {mutation.isPending ? "Loading..." : "Login"}
           </button>
         </form>
       </div>

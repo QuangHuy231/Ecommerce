@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const Add = ({ token }) => {
   const [image1, setImage1] = useState(false);
@@ -17,52 +19,63 @@ const Add = ({ token }) => {
   const [subCategory, setSubCategory] = useState("Topwear");
   const [bestSeller, setBestSeller] = useState(false);
   const [sizes, setSizes] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      image1 && formData.append("image1", image1);
-      image2 && formData.append("image2", image2);
-      image3 && formData.append("image3", image3);
-      image4 && formData.append("image4", image4);
-
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("price", price);
-      formData.append("stock", stock);
-      formData.append("category", category);
-      formData.append("subCategory", subCategory);
-      formData.append("bestSeller", bestSeller);
-      formData.append("sizes", JSON.stringify(sizes));
-
-      setLoading(true);
-
+  const createProductMutation = useMutation({
+    mutationFn: async (formData) => {
       const res = await axios.post(
         "https://ecommerce-backend-ten-wheat.vercel.app/api/product/create-product",
         formData,
         { headers: { token } }
       );
-
-      if (res.data.success) {
-        setLoading(false);
-        toast.success(res.data.message);
-        setName("");
-        setDescription("");
-        setPrice("");
-        setStock("");
-        setImage1(false);
-        setImage2(false);
-        setImage3(false);
-        setImage4(false);
-        setSizes([]);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(data.message);
+        resetForm();
+        navigate("/");
       } else {
-        toast.error(res.data.message);
+        toast.error(data.message);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    },
+    onError: (error) => {
+      toast.error("Something went wrong. Please try again!");
+      console.error(error);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (image1) formData.append("image1", image1);
+    if (image2) formData.append("image2", image2);
+    if (image3) formData.append("image3", image3);
+    if (image4) formData.append("image4", image4);
+
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("stock", stock);
+    formData.append("category", category);
+    formData.append("subCategory", subCategory);
+    formData.append("bestSeller", bestSeller);
+    formData.append("sizes", JSON.stringify(sizes));
+
+    createProductMutation.mutate(formData);
+  };
+
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    setPrice("");
+    setStock("");
+    setImage1(null);
+    setImage2(null);
+    setImage3(null);
+    setImage4(null);
+    setSizes([]);
+    setBestSeller(false);
   };
 
   return (
@@ -73,58 +86,27 @@ const Add = ({ token }) => {
       <div>
         <p className="mb-2">Upload Image</p>
         <div className="flex gap-2">
-          <label htmlFor="image1">
-            <img
-              className="w-20"
-              src={!image1 ? assets.upload : URL.createObjectURL(image1)}
-              alt=""
-            />
-            <input
-              onChange={(e) => setImage1(e.target.files[0])}
-              type="file"
-              id="image1"
-              hidden
-            />
-          </label>
-          <label htmlFor="image2">
-            <img
-              className="w-20"
-              src={!image2 ? assets.upload : URL.createObjectURL(image2)}
-              alt=""
-            />
-            <input
-              onChange={(e) => setImage2(e.target.files[0])}
-              type="file"
-              id="image2"
-              hidden
-            />
-          </label>
-          <label htmlFor="image3">
-            <img
-              className="w-20"
-              src={!image3 ? assets.upload : URL.createObjectURL(image3)}
-              alt=""
-            />
-            <input
-              onChange={(e) => setImage3(e.target.files[0])}
-              type="file"
-              id="image3"
-              hidden
-            />
-          </label>
-          <label htmlFor="image4">
-            <img
-              className="w-20"
-              src={!image4 ? assets.upload : URL.createObjectURL(image4)}
-              alt=""
-            />
-            <input
-              onChange={(e) => setImage4(e.target.files[0])}
-              type="file"
-              id="image4"
-              hidden
-            />
-          </label>
+          {[setImage1, setImage2, setImage3, setImage4].map(
+            (setImage, index) => (
+              <label key={index} htmlFor={`image${index + 1}`}>
+                <img
+                  className="w-20"
+                  src={
+                    !eval(`image${index + 1}`)
+                      ? assets.upload
+                      : URL.createObjectURL(eval(`image${index + 1}`))
+                  }
+                  alt=""
+                />
+                <input
+                  onChange={(e) => setImage(e.target.files[0])}
+                  type="file"
+                  id={`image${index + 1}`}
+                  hidden
+                />
+              </label>
+            )
+          )}
         </div>
       </div>
       <div className="w-full">
@@ -293,7 +275,7 @@ const Add = ({ token }) => {
         </label>
       </div>
       <button type="submit" className="w-28 py-3 mt-4 bg-black text-white">
-        {loading ? "Adding..." : "ADD"}
+        {createProductMutation.isPending ? "Adding..." : "ADD"}
       </button>
     </form>
   );

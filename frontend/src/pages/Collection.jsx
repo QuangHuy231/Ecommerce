@@ -41,7 +41,7 @@ const Collection = () => {
     productsCopy = productsCopy.filter((item) => item.stock > 0);
 
     if (showSearch && search) {
-      productsCopy = productsCopy.filter((item) =>
+      productsCopy = productsCopy?.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase())
       );
     }
@@ -90,15 +90,11 @@ const Collection = () => {
     queryFn: getAllProducts,
   });
 
-  const products = data || [];
-
-  useEffect(() => {
-    getAllProducts();
-  }, []);
+  let products = data || [];
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, products, search, showSearch]);
+  }, [category, subCategory, search, showSearch]);
 
   useEffect(() => {
     sortProducts();
@@ -215,7 +211,7 @@ const Collection = () => {
 
           {/* Products */}
           <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 gap-y-6">
-            {filterProducts.map((product) => (
+            {filterProducts?.map((product) => (
               <ProductItem key={product._id} product={product} />
             ))}
           </div>
