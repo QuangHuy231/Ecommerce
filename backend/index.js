@@ -25,6 +25,10 @@ app.use(
 app.use(express.json());
 app.use(cookiesparser());
 
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
 app.use("/api/auth", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
