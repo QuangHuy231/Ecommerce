@@ -17,7 +17,14 @@ connectDB();
 connectCloudinary();
 
 // config cors for all routes
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true, // Cho phép gửi cookie và xác thực
+  })
+);
 app.use(express.json());
 app.use(cookiesparser());
 
