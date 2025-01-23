@@ -86,11 +86,11 @@ const Collection = () => {
 
   useEffect(() => {
     getAllProducts();
-  }, [products]);
+  }, []);
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, search, showSearch]);
+  }, [category, subCategory, products, search, showSearch]);
 
   useEffect(() => {
     sortProducts();
