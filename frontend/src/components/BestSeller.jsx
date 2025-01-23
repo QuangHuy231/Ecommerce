@@ -8,7 +8,7 @@ import axios from "axios";
 const BestSeller = () => {
   const fetchBestSeller = async () => {
     const response = await axios.get(
-      `https://ecommerce-backend-ten-wheat.vercel.app//api/product/best-seller`
+      `https://ecommerce-backend-ten-wheat.vercel.app/api/product/best-seller`
     );
     return response.data.products;
   };

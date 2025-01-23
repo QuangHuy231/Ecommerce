@@ -1,7 +1,7 @@
 import axios from "axios";
 import { create } from "zustand";
 
-const API_URL = "https://ecommerce-backend-ten-wheat.vercel.app//api/product";
+const API_URL = "https://ecommerce-backend-ten-wheat.vercel.app/api/product";
 axios.defaults.withCredentials = true;
 
 export const useProductStore = create((set) => ({

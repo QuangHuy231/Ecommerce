@@ -53,7 +53,7 @@ const PlaceOrder = () => {
     try {
       if (method === "cod") {
         const res = await axios.post(
-          "https://ecommerce-backend-ten-wheat.vercel.app//api/order/place-order",
+          "https://ecommerce-backend-ten-wheat.vercel.app/api/order/place-order",
           orderData
         );
 
@@ -64,7 +64,7 @@ const PlaceOrder = () => {
       }
       if (method === "momo") {
         const res = await axios.post(
-          "https://ecommerce-backend-ten-wheat.vercel.app//api/order/pay-momo",
+          "https://ecommerce-backend-ten-wheat.vercel.app/api/order/pay-momo",
           orderData
         );
 
@@ -73,7 +73,7 @@ const PlaceOrder = () => {
       }
       // if (method === "vnpay") {
       //   const res = await axios.post(
-      //     "https://ecommerce-backend-ten-wheat.vercel.app//api/order/pay-vnpay"
+      //     "https://ecommerce-backend-ten-wheat.vercel.app/api/order/pay-vnpay"
       //   );
 
       //   const { payUrl } = res.data;

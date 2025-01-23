@@ -40,7 +40,7 @@ const ModalSelectSize = () => {
   const getDetailProduct = async (id) => {
     try {
       const response = await axios.get(
-        `https://ecommerce-backend-ten-wheat.vercel.app//api/product/${id}`
+        `https://ecommerce-backend-ten-wheat.vercel.app/api/product/${id}`
       );
       setDetailProduct(response.data.product);
     } catch (error) {

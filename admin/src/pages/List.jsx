@@ -8,7 +8,7 @@ const List = ({ token }) => {
   const getList = async () => {
     try {
       const res = await axios.get(
-        "https://ecommerce-backend-ten-wheat.vercel.app//api/product",
+        "https://ecommerce-backend-ten-wheat.vercel.app/api/product",
         {
           headers: { token },
         }
@@ -22,7 +22,7 @@ const List = ({ token }) => {
   const removeProduct = async (id) => {
     try {
       await axios.delete(
-        `https://ecommerce-backend-ten-wheat.vercel.app//api/product/delete-product/${id}`,
+        `https://ecommerce-backend-ten-wheat.vercel.app/api/product/delete-product/${id}`,
         {
           headers: { token },
         }

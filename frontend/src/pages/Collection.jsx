@@ -80,7 +80,7 @@ const Collection = () => {
 
   const getAllProducts = async () => {
     const response = await axios.get(
-      `https://ecommerce-backend-ten-wheat.vercel.app//api/product`
+      `https://ecommerce-backend-ten-wheat.vercel.app/api/product`
     );
     return response.data.products;
   };

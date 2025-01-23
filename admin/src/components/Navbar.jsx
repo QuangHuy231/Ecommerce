@@ -7,7 +7,7 @@ const Navbar = ({ setToken }) => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "https://ecommerce-backend-ten-wheat.vercel.app//api/auth/logout"
+        "https://ecommerce-backend-ten-wheat.vercel.app/api/auth/logout"
       );
       setToken("");
       toast.success("Logged out successfully");

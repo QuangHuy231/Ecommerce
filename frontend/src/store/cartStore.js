@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 
-const API_URL = "https://ecommerce-backend-ten-wheat.vercel.app//api/cart";
+const API_URL = "https://ecommerce-backend-ten-wheat.vercel.app/api/cart";
 export const useCartStore = create((set, get) => ({
   cartItems: [],
   isLoading: false,
