@@ -19,7 +19,11 @@ connectCloudinary();
 // config cors for all routes
 app.use(
   cors({
-    origin: "*",
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://ecommerce-frontend-omega-eight.vercel.app",
+    ],
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true, // Cho phép gửi cookie và xác thực
