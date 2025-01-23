@@ -19,6 +19,10 @@ export const placeOrder = async (req, res) => {
     const userId = req.userId;
     const { items, totalAmount, address } = req.body;
 
+    if (!userId || !items || !totalAmount || !address) {
+      return res.status(400).json({ success: false, message: "Invalid input" });
+    }
+
     const orderData = {
       items,
       totalAmount,

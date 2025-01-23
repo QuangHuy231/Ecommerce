@@ -4,6 +4,13 @@ export const addToCart = async (req, res) => {
   const userId = req.userId;
   const { itemId, size, image, price, name, quantity } = req.body;
 
+  if (!userId || !itemId || !size || !image || !price || !name || !quantity) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid input",
+    });
+  }
+
   try {
     let cart = await Cart.findOne({ userId });
 
