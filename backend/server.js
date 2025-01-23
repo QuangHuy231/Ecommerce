@@ -16,12 +16,8 @@ const port = process.env.PORT || 5000;
 connectDB();
 connectCloudinary();
 
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
-    credentials: true,
-  })
-);
+// config cors for all routes
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(cookiesparser());
 
