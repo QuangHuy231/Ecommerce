@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { set } from "mongoose";
 
 const Add = ({ token }) => {
   const [image1, setImage1] = useState(false);
@@ -17,6 +18,7 @@ const Add = ({ token }) => {
   const [subCategory, setSubCategory] = useState("Topwear");
   const [bestSeller, setBestSeller] = useState(false);
   const [sizes, setSizes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +38,8 @@ const Add = ({ token }) => {
       formData.append("bestSeller", bestSeller);
       formData.append("sizes", JSON.stringify(sizes));
 
+      setLoading(true);
+
       const res = await axios.post(
         "https://ecommerce-backend-ten-wheat.vercel.app/api/product/create-product",
         formData,
@@ -43,6 +47,7 @@ const Add = ({ token }) => {
       );
 
       if (res.data.success) {
+        setLoading(false);
         toast.success(res.data.message);
         setName("");
         setDescription("");
@@ -289,7 +294,7 @@ const Add = ({ token }) => {
         </label>
       </div>
       <button type="submit" className="w-28 py-3 mt-4 bg-black text-white">
-        ADD
+        {loading ? "Adding..." : "ADD"}
       </button>
     </form>
   );
