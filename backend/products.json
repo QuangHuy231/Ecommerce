@@ -1,0 +1,258 @@
+[{
+  "_id": {
+    "$oid": "6749e3eeac5c2d4ad7eec535"
+  },
+  "name": "Unisex T-Shirt ",
+  "description": "A comfortable, loose-fit white t-shirt featuring a stylish vintage car print and unique typography. Made from soft cotton fabric, perfect for both men and women. Ideal for casual wear or outings with friends.",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732895711/ecommerce/w5qdlbc3tlp3ac9wzuxn.jpg",
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732895712/ecommerce/otpgyden0141okg7tt6d.jpg"
+  ],
+  "category": "Men",
+  "subCategory": "Topwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": false,
+  "date": {
+    "$date": {
+      "$numberLong": "1732895726628"
+    }
+  },
+  "stock": 14,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e4cdac5c2d4ad7eec551"
+  },
+  "name": "Oversized Graphic T-Shirt with Motivational Print",
+  "description": "Stylish oversized green t-shirt featuring bold \"Make Money Not Friend\" typography and colorful design elements. Crafted from breathable fabric for a comfortable fit, perfect for streetwear enthusiasts. Ideal for casual outings or making a statement!",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732895934/ecommerce/h0xngc8zr6cqhfvy8xgu.jpg",
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732895935/ecommerce/kd0czvcz0akeapzvktbo.jpg",
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732895935/ecommerce/d7n9lyihxkillx5fvlyr.jpg"
+  ],
+  "category": "Men",
+  "subCategory": "Topwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": false,
+  "date": {
+    "$date": {
+      "$numberLong": "1732895949751"
+    }
+  },
+  "stock": 12,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e541ac5c2d4ad7eec5bc"
+  },
+  "name": "Kids' Trendy Two-Piece Outfit",
+  "description": "Stylish two-piece outfit for kids, featuring a black layered vest with utility pockets and matching shorts. Paired with a white undershirt for a cool and modern look. Perfect for casual outings and streetwear fashion for your little one!",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896051/ecommerce/h3eccttn5jpzr6evckyw.jpg",
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896050/ecommerce/kxl0kpww0og6dnchbal8.jpg"
+  ],
+  "category": "Kids",
+  "subCategory": "Topwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": false,
+  "date": {
+    "$date": {
+      "$numberLong": "1732896065779"
+    }
+  },
+  "stock": 13,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e574ac5c2d4ad7eec5bf"
+  },
+  "name": "Kids' Outfit",
+  "description": "Stylish two-piece outfit for kids, featuring a black layered vest with utility pockets and matching shorts. Paired with a white undershirt for a cool and modern look. Perfect for casual outings and streetwear fashion for your little one!",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896102/ecommerce/op11p7q5tlvosakw2qed.jpg"
+  ],
+  "category": "Kids",
+  "subCategory": "Topwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": true,
+  "date": {
+    "$date": {
+      "$numberLong": "1732896116711"
+    }
+  },
+  "stock": 17,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e5cfac5c2d4ad7eec5d4"
+  },
+  "name": "Men's Stylish Stand-Collar Jacket",
+  "description": "Modern men's jacket made from high-quality material, offering warmth and comfort. Minimalist design with a sleek stand-collar fit, perfect for both work and casual outings. A great choice for men who value style and versatility!",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896192/ecommerce/ryxowhh6ce7t1rnmxpto.jpg",
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896189/ecommerce/g4cbrmbpjgw2dwncfbia.jpg"
+  ],
+  "category": "Men",
+  "subCategory": "Topwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": false,
+  "date": {
+    "$date": {
+      "$numberLong": "1732896207779"
+    }
+  },
+  "stock": 4,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e7d2404c9c97bb3e7b02"
+  },
+  "name": "Women's Elegant Fashion Jacket",
+  "description": "A modern and stylish women's jacket designed with soft, cozy material to keep you warm. Featuring a chic design that’s easy to pair with any outfit, perfect for work, casual outings, or a stroll in the city. An ideal choice for women who value elegance and comfort!",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896709/ecommerce/nmu5enxkqayo4ih5nt29.jpg"
+  ],
+  "category": "Women",
+  "subCategory": "Topwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": false,
+  "date": {
+    "$date": {
+      "$numberLong": "1732896722987"
+    }
+  },
+  "stock": 18,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e7f6404c9c97bb3e7b17"
+  },
+  "name": "Women's Elegant Fashion Jacket",
+  "description": "A modern and stylish women's jacket designed with soft, cozy material to keep you warm. Featuring a chic design that’s easy to pair with any outfit, perfect for work, casual outings, or a stroll in the city. An ideal choice for women who value elegance and comfort!",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896744/ecommerce/aulb0gq0cbxw7gdm2ogb.jpg"
+  ],
+  "category": "Women",
+  "subCategory": "Topwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": true,
+  "date": {
+    "$date": {
+      "$numberLong": "1732896758739"
+    }
+  },
+  "stock": 20,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e82e404c9c97bb3e7b1a"
+  },
+  "name": "Trendy Wide-Leg Pants",
+  "description": "Modern wide-leg pants made with breathable fabric for all-day comfort. Featuring a sleek design that’s easy to style, perfect for work, casual outings, or city strolls. A must-have piece for your wardrobe!",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896798/ecommerce/kp0akpdqhhhjdpyzujxv.jpg",
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896800/ecommerce/tuvrwlqyyn13h7tuh8dr.jpg"
+  ],
+  "category": "Men",
+  "subCategory": "Bottomwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": true,
+  "date": {
+    "$date": {
+      "$numberLong": "1732896814391"
+    }
+  },
+  "stock": 19,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e860404c9c97bb3e7b2f"
+  },
+  "name": "Colorful Pants for Bold Styles",
+  "description": "Vibrant and eye-catching pants designed to add a pop of color to your wardrobe. Made with comfortable fabric, these pants are perfect for expressing your personality and style. Ideal for casual outings, events, or any occasion where you want to stand out!",
+  "price": 40,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896849/ecommerce/koc7kqlrqnb8oxrrqsjv.jpg",
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896848/ecommerce/ppnl5pqblt56b0dzfxib.jpg"
+  ],
+  "category": "Men",
+  "subCategory": "Bottomwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": false,
+  "date": {
+    "$date": {
+      "$numberLong": "1732896864694"
+    }
+  },
+  "stock": 10,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6749e8d9404c9c97bb3e7b4d"
+  },
+  "name": "Wide-Leg Denim Jeans",
+  "description": "Classic wide-leg denim jeans that offer a relaxed, comfortable fit with a trendy look. Made from durable denim, these jeans are perfect for casual outings and everyday wear. Pair them with any top for a laid-back, stylish outfit!",
+  "price": 30,
+  "images": [
+    "https://res.cloudinary.com/du3ih0nrz/image/upload/v1732896971/ecommerce/qcud1m0rubycoypixpjm.jpg"
+  ],
+  "category": "Women",
+  "subCategory": "Bottomwear",
+  "sizes": [
+    "S",
+    "M",
+    "L"
+  ],
+  "bestSeller": true,
+  "date": {
+    "$date": {
+      "$numberLong": "1732896985091"
+    }
+  },
+  "stock": 25,
+  "__v": 0
+}]

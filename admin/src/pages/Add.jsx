@@ -53,6 +53,18 @@ const Add = ({ token }) => {
     if (image3) formData.append("image3", image3);
     if (image4) formData.append("image4", image4);
 
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !stock ||
+      !category ||
+      !subCategory ||
+      sizes.length === 0
+    ) {
+      return toast.error("Please fill all the fields");
+    }
+
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
@@ -103,6 +115,7 @@ const Add = ({ token }) => {
                   type="file"
                   id={`image${index + 1}`}
                   hidden
+                  disabled={createProductMutation.isPending}
                 />
               </label>
             )
@@ -117,6 +130,7 @@ const Add = ({ token }) => {
           placeholder="Type here"
           onChange={(e) => setName(e.target.value)}
           value={name}
+          disabled={createProductMutation.isPending}
         />
       </div>
       <div className="w-full">
@@ -127,6 +141,7 @@ const Add = ({ token }) => {
           placeholder="Write content here"
           onChange={(e) => setDescription(e.target.value)}
           value={description}
+          disabled={createProductMutation.isPending}
         />
       </div>
       <div className="flex flex-col sm:flex-row gap-2 w-full sm:gap-8">
@@ -135,6 +150,7 @@ const Add = ({ token }) => {
           <select
             onChange={(e) => setCategory(e.target.value)}
             className="w-full px-3 py-2"
+            disabled={createProductMutation.isPending}
           >
             <option value="Men">Men</option>
             <option value="Women">Women</option>
@@ -146,6 +162,7 @@ const Add = ({ token }) => {
           <select
             onChange={(e) => setSubCategory(e.target.value)}
             className="w-full px-3 py-2"
+            disabled={createProductMutation.isPending}
           >
             <option value="Topwear">Topwear</option>
             <option value="Bottomwear">Bottomwear</option>
@@ -157,9 +174,9 @@ const Add = ({ token }) => {
           <input
             className="w-full px-3 py-2 sm:w-[120px]"
             type="Number"
-            placeholder="25"
             onChange={(e) => setPrice(e.target.value)}
             value={price}
+            disabled={createProductMutation.isPending}
           />
         </div>
         <div>
@@ -167,9 +184,9 @@ const Add = ({ token }) => {
           <input
             className="w-full px-3 py-2 sm:w-[120px]"
             type="Number"
-            placeholder="25"
             onChange={(e) => setStock(e.target.value)}
             value={stock}
+            disabled={createProductMutation.isPending}
           />
         </div>
       </div>
@@ -269,6 +286,7 @@ const Add = ({ token }) => {
           checked={bestSeller}
           type="checkbox"
           id="bestSeller"
+          disabled={createProductMutation.isPending}
         />
         <label className="cursor-pointer" htmlFor="bestseller">
           Add to best seller

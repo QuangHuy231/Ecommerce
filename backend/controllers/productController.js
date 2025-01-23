@@ -99,6 +99,21 @@ export const createProduct = async (req, res) => {
       bestSeller,
     } = req.body;
 
+    if (
+      !name ||
+      !price ||
+      !description ||
+      !category ||
+      !sizes ||
+      !stock ||
+      !subCategory
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Please fill all the fields",
+      });
+    }
+
     const image1 = req.files.image1 && req.files.image1[0];
     const image2 = req.files.image2 && req.files.image2[0];
     const image3 = req.files.image3 && req.files.image3[0];
