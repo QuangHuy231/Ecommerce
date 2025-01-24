@@ -17,7 +17,7 @@ const Navbar = () => {
   const { getCartCount } = useCartStore();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     logout();
   };
 
