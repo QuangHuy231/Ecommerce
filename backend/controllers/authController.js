@@ -90,7 +90,12 @@ const registerUser = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true, // Chỉ truy cập bằng HTTP request, bảo mật
+    secure: true, // Chỉ gửi cookie qua HTTPS
+    sameSite: "none", // Cho phép gửi cookie cross-origin
+    path: "/", // Xóa cookie trên toàn trang
+  });
   res.status(200).json({ success: true, message: "Logged out successfully" });
 };
 
