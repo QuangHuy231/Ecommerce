@@ -3,18 +3,26 @@ import { useModalStore } from "../store/modalStore";
 import { toast } from "react-toastify";
 import { useCartStore } from "../store/cartStore";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../components/Loading";
+
+const fetchProductDetail = async (id) => {
+  const { data } = await axios.get(
+    `https://ecommerce-backend-ten-wheat.vercel.app/api/product/${id}`
+  );
+  return data.product;
+};
 
 const ModalSelectSize = () => {
   const { closeModal, _id } = useModalStore();
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [detailProduct, setDetailProduct] = useState({});
 
   const { addToCart, isLoading } = useCartStore();
 
   const handleAddToCart = async () => {
-    if (quantity > detailProduct.stock) {
+    if (quantity > detailProduct?.stock) {
       toast.error("Product out of stock");
       return;
     }
@@ -23,34 +31,31 @@ const ModalSelectSize = () => {
       return;
     }
     addToCart(
-      detailProduct._id,
+      detailProduct?._id,
       size,
       image,
-      detailProduct.price,
-      detailProduct.name,
+      detailProduct?.price,
+      detailProduct?.name,
       quantity
     );
     closeModal();
   };
 
-  useEffect(() => {
-    setImage(detailProduct.images && detailProduct.images[0]);
-  }, [detailProduct]);
+  const {
+    data: detailProduct,
+    isLoading: loadingProduct,
+    error,
+  } = useQuery({
+    queryKey: ["productDetail", _id],
+    queryFn: () => fetchProductDetail(_id),
+    enabled: !!_id, // Chỉ fetch khi có _id
+  });
 
-  const getDetailProduct = async (id) => {
-    try {
-      const response = await axios.get(
-        `https://ecommerce-backend-ten-wheat.vercel.app/api/product/${id}`
-      );
-      setDetailProduct(response.data.product);
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (detailProduct?.images) {
+      setImage(detailProduct.images[0]);
     }
-  };
-
-  useEffect(() => {
-    getDetailProduct(_id);
-  }, [_id]);
+  }, [detailProduct]);
 
   return (
     <>
@@ -86,8 +91,8 @@ const ModalSelectSize = () => {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row justify-center">
                 <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
-                  {detailProduct.images &&
-                    detailProduct.images.map((image, index) => (
+                  {detailProduct?.images &&
+                    detailProduct?.images.map((image, index) => (
                       <img
                         onClick={() => setImage(image)}
                         key={index}
@@ -106,7 +111,7 @@ const ModalSelectSize = () => {
                 </div>
               </div>
               <div className="flex-1">
-                <p className="text-2xl font-semibold">{detailProduct.name}</p>
+                <p className="text-2xl font-semibold">{detailProduct?.name}</p>
                 <div className="mt-2 flex items-center gap-2">
                   <div className="flex items-center">
                     <svg
@@ -167,8 +172,8 @@ const ModalSelectSize = () => {
                   <div className="flex flex-col gap-4 my-8">
                     <p>Select Size</p>
                     <div className="flex gap-2">
-                      {detailProduct.sizes &&
-                        detailProduct.sizes.map((item, index) => (
+                      {detailProduct?.sizes &&
+                        detailProduct?.sizes.map((item, index) => (
                           <button
                             key={index}
                             onClick={() => setSize(item)}
@@ -185,7 +190,7 @@ const ModalSelectSize = () => {
                     <p>
                       Quantity{" "}
                       <span className="text-gray-500">
-                        (Available: {detailProduct.stock})
+                        (Available: {detailProduct?.stock})
                       </span>
                     </p>
                     <div className="flex gap-1">
@@ -209,7 +214,7 @@ const ModalSelectSize = () => {
                       <button
                         onClick={() =>
                           setQuantity((prev) => {
-                            if (prev < detailProduct.stock) {
+                            if (prev < detailProduct?.stock) {
                               return prev + 1;
                             }
                             return prev;
@@ -226,7 +231,7 @@ const ModalSelectSize = () => {
 
                 <div className="flex justify-between items-center mt-8">
                   <p className="text-2xl font-semibold">
-                    ${detailProduct.price}
+                    ${detailProduct?.price}
                   </p>
                   <button
                     onClick={handleAddToCart}

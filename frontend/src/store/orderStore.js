@@ -16,18 +16,6 @@ export const useOrderStore = create((set) => ({
     });
   },
 
-  getOrders: async () => {
-    set({ isLoading: true });
-    try {
-      const response = await axios.get(`${API_URL}`);
-      set({ orders: response.data.orders });
-    } catch (error) {
-      toast.error(error.response.data.message);
-    } finally {
-      set({ isLoading: false });
-    }
-  },
-
   cancelOrder: async (id) => {
     set({ isLoading: true });
     try {
